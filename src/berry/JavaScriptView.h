@@ -5,7 +5,7 @@
 #include <GLFW/glfw3.h>
 
 #define BERRY_VERSION "0.1"
-#define BERRY_BOOT_JS "src/scripts/ejecta.js"
+#define BERRY_BOOT_JS "src/scripts/berry.js"
 
 namespace berry {
 
