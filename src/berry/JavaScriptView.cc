@@ -85,6 +85,9 @@ void JavaScriptView::run()
         glVertex3f(0.f, 0.6f, 0.0f);
     glEnd();
 
+    // RAF
+    duk_eval_string(this->jsGlobalContext, "berry.tickAnimFrame();");
+
     glfwSwapBuffers(this->window);
     glfwPollEvents();
 }
