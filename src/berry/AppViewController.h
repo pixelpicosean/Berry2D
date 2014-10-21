@@ -7,19 +7,28 @@ namespace berry{
 
 class AppViewController
 {
-    const char *path;
-
+public:
     JavaScriptView *view;
 
-    void loadView();
-
 public:
-    AppViewController();
-    ~AppViewController();
+    void initWithScriptAtPath(const char *path, int width = 640, int height = 480, const char *title = "Berry2D");
 
-    void initWithScriptAtPath(const char *path);
+    static AppViewController& getInstance()
+    {
+        static AppViewController instance;
+        return instance;
+    }
+
+private:
+    AppViewController() {}
+    AppViewController(AppViewController const&) {}
+    void operator=(AppViewController const&) {}
+
+    ~AppViewController();
 };
 
 }
+
+#define theAppController berry::AppViewController::getInstance()
 
 #endif

@@ -2,23 +2,16 @@
 
 namespace berry {
 
-AppViewController::AppViewController() {}
 AppViewController::~AppViewController()
 {
     delete this->view;
 }
 
-void AppViewController::initWithScriptAtPath(const char *path)
+void AppViewController::initWithScriptAtPath(const char *path, int width, int height, const char *title)
 {
-    this->path = path;
-
-    this->loadView();
+    this->view = new JavaScriptView(width, height, title);
     this->view->loadScriptAtPath(path);
-}
-
-void AppViewController::loadView()
-{
-    this->view = new JavaScriptView();
+    this->view->startRunning();
 }
 
 }

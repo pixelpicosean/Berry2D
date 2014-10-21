@@ -23,6 +23,14 @@ elif env['mode'] == 'profile':
 # env.Append(CCFLAGS = ['-DLINUX'])
 env.Append(CXXFLAGS = ['-std=c++11'])
 
+# Frameworks
+env.Append(FRAMEWORKS = [
+    'Cocoa',
+    'OpenGL',
+    'IOKit',
+    'CoreVideo'
+])
+
 # Libs
 env.Append(CPPPATH = ['/usr/local/include'])
 env.Append(LIBPATH = ['/usr/local/lib'])

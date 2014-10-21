@@ -3,8 +3,11 @@
 
 int main(int argc, char const *argv[])
 {
-    berry::AppViewController vc;
-    vc.initWithScriptAtPath("index.js");
+    theAppController.initWithScriptAtPath(
+        "index.js",
+        640, 480,
+        "Berry2D"
+    );
 
     return 0;
 }
