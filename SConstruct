@@ -23,11 +23,19 @@ elif env['mode'] == 'profile':
 # env.Append(CCFLAGS = ['-DLINUX'])
 env.Append(CXXFLAGS = ['-std=c++11'])
 
+# Libs
+env.Append(CPPPATH = ['/usr/local/include'])
+env.Append(LIBPATH = ['/usr/local/lib'])
+env.Append(LIBS = ['glfw3'])
+
 # Build
 # - Packages
 sources = Split("""
-    src/berry/core.cc
-    src/common/object.cc
+    src/berry/AppViewController.cc
+    src/berry/Canvas.cc
+    src/berry/Core.cc
+    src/berry/JavaScriptView.cc
+    src/common/Object.cc
     src/duktape/duktape.c
     src/main.cc
 """)
