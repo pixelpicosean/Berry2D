@@ -180,4 +180,91 @@ window.top = window.parent = window;
         }
     };
 
+    window.Event = function(type) {
+        this.type = type;
+        this.cancelBubble = false;
+        this.cancelable = false;
+        this.target = null;
+
+        this.initEvent = function(type, bubbles, cancelable) {
+            this.type = type;
+            this.cancelBubble = bubbles;
+            this.cancelable = cancelable;
+        };
+
+        this.preventDefault = function() {};
+        this.stopPropagation = function() {};
+    };
+
+    window.location = { href: 'index' };
+
+    // Set up a "fake" HTMLElement
+    HTMLElement = function(tagName) {
+        this.tagName = tagName.toUpperCase();
+        this.children = [];
+        this.style = {};
+    };
+
+    HTMLElement.prototype.appendChild = function(element) {
+        this.children.push(element);
+
+        // If the child is a script element, begin to load it
+        if (element.tagName && element.tagName.toLowerCase() == 'script') {
+            window.setTimeout(function() {
+                // TODO: module search and load
+                /*require(element.src);
+                if (element.onload) {
+                    element.onload({
+                        type: 'load',
+                        currentTarget: element
+                    });
+                }*/
+                print("script loading not available yet");
+            }, 1);
+        }
+    };
+
+    HTMLElement.prototype.insertBefore = function(newElement, existingElement) {
+        // Just append; we don't care about order here
+        this.children.push(newElement);
+    };
+
+    HTMLElement.prototype.removeChild = function(node) {
+        for (var i = this.children.length; i--;) {
+            if (this.children[i] === node) {
+                this.children.splice(i, 1);
+            }
+        }
+    };
+
+    HTMLElement.prototype.getBoundingClientRect = function() {
+        return {
+            top: 0,
+            left: 0,
+            width: window.innerWidth,
+            height: window.innerHeight
+        };
+    };
+
+    HTMLElement.prototype.setAttribute = function(attr, value) {
+        this[attr] = value;
+    };
+
+    HTMLElement.prototype.getAttribute = function(attr) {
+        return this[attr];
+    };
+
+    HTMLElement.prototype.addEventListener = function(event, method) {
+        if (event === 'load') {
+            this.onload = method;
+        }
+    };
+
+    HTMLElement.prototype.removeEventListener = function(event, method) {
+        if (event === 'load') {
+            this.onload = undefined;
+        }
+    };
+
+
 })(this);
