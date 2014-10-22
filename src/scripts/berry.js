@@ -266,5 +266,116 @@ window.top = window.parent = window;
         }
     };
 
+    // The document object
+    window.document = {
+        readystate: 'complete',
+        documentElement: window,
+        location: window.location,
+        visibilityState: 'visible',
+        hidden: false,
+        style: {},
+
+        head: new HTMLElement('head'),
+        body: new HTMLElement('body'),
+
+        events: {},
+
+        createElement: function(name) {
+            if (name === 'canvas') {
+                var canvas = new __BERRY__.Canvas();
+                canvas.type = 'canvas';
+                return canvas;
+            }
+            else if (name == 'audio') {
+                return new __BERRY__.Audio();
+            }
+            else if (name == 'video') {
+                return new __BERRY__.Video();
+            }
+            else if (name === 'img') {
+                return new window.Image();
+            }
+            else if (name === 'input' || name === 'textarea') {
+                return new __BERRY__.KeyInput();
+            }
+            return new HTMLElement(name);
+        },
+
+        getElementById: function(id){
+            if (id === 'canvas') {
+                return window.canvas;
+            }
+            return null;
+        },
+
+        getElementsByTagName: function(tagName) {
+            var elements = [], children, i;
+
+            tagName = tagName.toLowerCase();
+
+            if (tagName === 'head') {
+                elements.push(document.head);
+            }
+            else if (tagName === 'body') {
+                elements.push(document.body);
+            }
+            else {
+                children = document.body.children;
+                for (i = 0; i < children.length; i++) {
+                    if (children[i].tagName.toLowerCase() === tagName) {
+                        elements.push(children[i]);
+                    }
+                }
+                children = undefined;
+            }
+            return elements;
+        },
+
+        createEvent: function(type) {
+            return new window.Event(type);
+        },
+
+        addEventListener: function(type, callback, useCapture) {
+            if (type == 'DOMContentLoaded') {
+                window.setTimeout(callback, 1);
+                return;
+            }
+            if (!this.events[type]) {
+                this.events[type] = [];
+
+                // call the event initializer, if this is the first time we
+                // bind to this event.
+                if (typeof(this._eventInitializers[type]) === 'function') {
+                    this._eventInitializers[type]();
+                }
+            }
+            this.events[type].push(callback);
+        },
+
+        removeEventListener: function(type, callback) {
+            var listeners = this.events[type];
+            if (!listeners) {
+                return;
+            }
+
+            for (var i = listeners.length; i--;) {
+                if (listeners[i] === callback) {
+                    listeners.splice(i, 1);
+                }
+            }
+        },
+
+        _eventInitializers: {},
+        dispatchEvent: function(event) {
+            var listeners = this.events[event.type];
+            if (!listeners) {
+                return;
+            }
+
+            for (var i = 0; i < listeners.length; i++) {
+                listeners[i](event);
+            }
+        }
+    };
 
 })(this);

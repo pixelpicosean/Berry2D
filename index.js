@@ -39,3 +39,11 @@ var loopID = window.setInterval(function() {
         window.clearInterval(loopID);
     }
 }, 1600);
+
+document.addEventListener('DOMContentLoaded', function() {
+    print("event: DOMContentLoaded");
+    document.dispatchEvent(document.createEvent('custom'));
+});
+document.addEventListener('custom', function() {
+    print("event: custom");
+});
