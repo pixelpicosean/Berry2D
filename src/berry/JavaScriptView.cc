@@ -9,9 +9,16 @@ JavaScriptView::JavaScriptView(int width, int height, const char *title):
     // Create the global JS context
     this->jsGlobalContext = duk_create_heap_default();
     // - Setup global namespace for Berry built-in
-    duk_push_global_object(this->jsGlobalContext);
+    duk_push_global_object(this->jsGlobalContext); /* global */
     duk_push_object(this->jsGlobalContext);
     duk_put_prop_string(this->jsGlobalContext, -2, BERRY_JS_NAMESPACE);
+    // - Setup properties of __BERRY__
+    duk_get_prop_string(this->jsGlobalContext, -1, BERRY_JS_NAMESPACE); /* __BERRY__ */
+    duk_push_int(this->jsGlobalContext, width);
+    duk_put_prop_string(this->jsGlobalContext, -2, "screenWidth");
+    duk_push_int(this->jsGlobalContext, height);
+    duk_put_prop_string(this->jsGlobalContext, -2, "screenHeight");
+    // - Leave global scope
     duk_pop(this->jsGlobalContext);
 
     // Create a window

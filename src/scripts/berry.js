@@ -4,6 +4,10 @@ window.top = window.parent = window;
 
 (function(window) {
 
+    // window.devicePixelRatio = __BERRY__.devicePixelRatio;
+    window.innerWidth = __BERRY__.screenWidth;
+    window.innerHeight = __BERRY__.screenHeight;
+
     var animFrameCallbacks = [], nextAnimFrameCallbackID = 0;
     __BERRY__.tickAnimFrame = function tickAnimFrame() {
         for (var i = 0, len = animFrameCallbacks.length; i < len; i++) {
