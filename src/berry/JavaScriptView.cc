@@ -1,25 +1,23 @@
 #include "JavaScriptView.h"
+#include <string>
 
 namespace berry {
 
 JavaScriptView::JavaScriptView(int width, int height, const char *title):
     width(width),
-    height(height)
+    height(height),
+    lang("en")
 {
     // Create the global JS context
     this->jsGlobalContext = duk_create_heap_default();
-    // - Setup global namespace for Berry built-in
+
+    // Setup global namespace for Berry built-in
     duk_push_global_object(this->jsGlobalContext); /* global */
     duk_push_object(this->jsGlobalContext);
     duk_put_prop_string(this->jsGlobalContext, -2, BERRY_JS_NAMESPACE);
-    // - Setup properties of __BERRY__
-    duk_get_prop_string(this->jsGlobalContext, -1, BERRY_JS_NAMESPACE); /* __BERRY__ */
-    duk_push_int(this->jsGlobalContext, width);
-    duk_put_prop_string(this->jsGlobalContext, -2, "screenWidth");
-    duk_push_int(this->jsGlobalContext, height);
-    duk_put_prop_string(this->jsGlobalContext, -2, "screenHeight");
-    // - Leave global scope
-    duk_pop_n(this->jsGlobalContext, 2);
+    duk_pop(this->jsGlobalContext);
+
+    this->defineProperties();
 
     // Create a window
     if (!glfwInit()) {
@@ -107,6 +105,39 @@ void JavaScriptView::run()
 
     glfwSwapBuffers(this->window);
     glfwPollEvents();
+}
+
+void JavaScriptView::defineProperties()
+{
+    // Set properties to __BERRY__
+    duk_push_global_object(this->jsGlobalContext);
+    duk_get_prop_string(this->jsGlobalContext, -1, BERRY_JS_NAMESPACE); /* __BERRY__ */
+
+    // - screenWidth
+    duk_push_int(this->jsGlobalContext, width);
+    duk_put_prop_string(this->jsGlobalContext, -2, "screenWidth");
+    // - screenHeight
+    duk_push_int(this->jsGlobalContext, height);
+    duk_put_prop_string(this->jsGlobalContext, -2, "screenHeight");
+
+    // - language
+    duk_push_string(this->jsGlobalContext, this->lang);
+    duk_put_prop_string(this->jsGlobalContext, -2, "language");
+    // - userAgent
+    std::string userAgent("Ejecta/");
+    userAgent += BERRY_VERSION;
+    userAgent += "(OSX; OS 10.10)";
+    duk_push_string(this->jsGlobalContext, userAgent.c_str());
+    duk_put_prop_string(this->jsGlobalContext, -2, "userAgent");
+    // - app version
+    duk_push_string(this->jsGlobalContext, "0.1.0");
+    duk_put_prop_string(this->jsGlobalContext, -2, "appVersion");
+    // - platform
+    duk_push_string(this->jsGlobalContext, "Darwin");
+    duk_put_prop_string(this->jsGlobalContext, -2, "platform");
+
+    // Leave global scope
+    duk_pop(this->jsGlobalContext);
 }
 
 }

@@ -19,6 +19,8 @@ class JavaScriptView
     int width;
     int height;
 
+    const char *lang;
+
 public:
     JavaScriptView(int width, int height, const char *title);
     ~JavaScriptView();
@@ -32,6 +34,7 @@ public:
 
 private:
     void run();
+    void defineProperties();
 };
 
 class Input
