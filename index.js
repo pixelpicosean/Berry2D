@@ -25,3 +25,17 @@ window.requestAnimationFrame(function() {
         count = 0;
     }
 });
+
+window.setTimeout(function() {
+    print('setTimeout (1000ms)');
+}, 1000);
+
+var intervalCount = 0;
+var loopID = window.setInterval(function() {
+    print('setInterval (1600ms), called ' + (intervalCount + 1) + ' times');
+    intervalCount++;
+    if (intervalCount > 2) {
+        print("clearInterval [" + loopID + '] after ' + intervalCount + ' times');
+        window.clearInterval(loopID);
+    }
+}, 1600);
