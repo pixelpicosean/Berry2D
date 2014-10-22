@@ -11,6 +11,12 @@ print('window.navigator.userAgent = ' + window.navigator.userAgent);
 print('window.navigator.appVersion = ' + window.navigator.appVersion);
 print('window.navigator.platform = ' + window.navigator.platform);
 
+console.debug('debug info');
+console.info('info info');
+console.warn('warn info');
+console.error('error info');
+console.log('log info');
+
 var count = 0;
 window.requestAnimationFrame(function() {
     count++;
