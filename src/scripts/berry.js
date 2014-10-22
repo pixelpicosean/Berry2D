@@ -2,17 +2,16 @@
 self = window = this;
 window.top = window.parent = window;
 
-var berry = window.__BERRY__ = {};
-
 (function(window) {
 
     var animFrameCallbacks = [], nextAnimFrameCallbackID = 0;
-    berry.tickAnimFrame = function() {
+    __BERRY__.tickAnimFrame = function tickAnimFrame() {
         for (var i = 0, len = animFrameCallbacks.length; i < len; i++) {
             animFrameCallbacks[i].callback();
         }
     };
 
+    // API
     window.requestAnimationFrame = function(cb) {
         animFrameCallbacks.push({
             id: nextAnimFrameCallbackID++,

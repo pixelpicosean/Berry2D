@@ -8,6 +8,11 @@ JavaScriptView::JavaScriptView(int width, int height, const char *title):
 {
     // Create the global JS context
     this->jsGlobalContext = duk_create_heap_default();
+    // - Setup global namespace for Berry built-in
+    duk_push_global_object(this->jsGlobalContext);
+    duk_push_object(this->jsGlobalContext);
+    duk_put_prop_string(this->jsGlobalContext, -2, BERRY_JS_NAMESPACE);
+    duk_pop(this->jsGlobalContext);
 
     // Create a window
     if (!glfwInit()) {
@@ -41,6 +46,7 @@ JavaScriptView::~JavaScriptView()
 void JavaScriptView::loadScriptAtPath(const char *path)
 {
     duk_eval_file(this->jsGlobalContext, path);
+    duk_pop(this->jsGlobalContext);
 }
 
 void JavaScriptView::startRunning()
@@ -86,7 +92,8 @@ void JavaScriptView::run()
     glEnd();
 
     // RAF
-    duk_eval_string(this->jsGlobalContext, "berry.tickAnimFrame();");
+    duk_eval_string(this->jsGlobalContext, "__BERRY__.tickAnimFrame();");
+    duk_pop(this->jsGlobalContext);
 
     glfwSwapBuffers(this->window);
     glfwPollEvents();

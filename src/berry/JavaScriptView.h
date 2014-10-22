@@ -7,6 +7,8 @@
 #define BERRY_VERSION "0.1"
 #define BERRY_BOOT_JS "src/scripts/berry.js"
 
+#define BERRY_JS_NAMESPACE "__BERRY__"
+
 namespace berry {
 
 class JavaScriptView
