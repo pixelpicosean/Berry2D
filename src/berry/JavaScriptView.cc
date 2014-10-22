@@ -19,7 +19,7 @@ JavaScriptView::JavaScriptView(int width, int height, const char *title):
     duk_push_int(this->jsGlobalContext, height);
     duk_put_prop_string(this->jsGlobalContext, -2, "screenHeight");
     // - Leave global scope
-    duk_pop(this->jsGlobalContext);
+    duk_pop_n(this->jsGlobalContext, 2);
 
     // Create a window
     if (!glfwInit()) {
@@ -99,8 +99,11 @@ void JavaScriptView::run()
     glEnd();
 
     // RAF
-    duk_eval_string(this->jsGlobalContext, "__BERRY__.tickAnimFrame();");
-    duk_pop(this->jsGlobalContext);
+    duk_push_global_object(this->jsGlobalContext);
+    duk_get_prop_string(this->jsGlobalContext, -1, BERRY_JS_NAMESPACE); /* __BERRY__ */
+    duk_get_prop_string(this->jsGlobalContext, -1, "tickAnimFrame");
+    duk_call(this->jsGlobalContext, 0);
+    duk_pop_n(this->jsGlobalContext, 3);
 
     glfwSwapBuffers(this->window);
     glfwPollEvents();
