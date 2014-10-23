@@ -1,13 +1,12 @@
 #ifndef BERRY_BERRY_JAVASCRIPTVIEW_H
 #define BERRY_BERRY_JAVASCRIPTVIEW_H
 
-#include "../duktape/duktape.h"
 #include <GLFW/glfw3.h>
+
+#include "../common/BindUtil.h"
 
 #define BERRY_VERSION "0.1"
 #define BERRY_BOOT_JS "src/scripts/berry.js"
-
-#define BERRY_JS_NAMESPACE "__BERRY__"
 
 namespace berry {
 
