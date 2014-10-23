@@ -1,6 +1,17 @@
 #include "JavaScriptView.h"
 #include <string>
 
+#if defined(WIN32)
+#  define OS_NAME "Windows"
+#  define OS_AGENT "(Windows; OS ?)"
+#elif defined(__APPLE__)
+#  define OS_NAME "MacOS X"
+#  define OS_AGENT "(MacOS X; OS 10.10)"
+#elif defined(__linux__)
+#  define OS_NAME "Linux"
+#  define OS_AGENT "(Linux; OS ?)"
+#endif
+
 namespace berry {
 
 JavaScriptView::JavaScriptView(int width, int height, const char *title):
@@ -126,14 +137,14 @@ void JavaScriptView::defineProperties()
     // - userAgent
     std::string userAgent("Ejecta/");
     userAgent += BERRY_VERSION;
-    userAgent += "(OSX; OS 10.10)";
+    userAgent += OS_AGENT;
     duk_push_string(this->jsGlobalContext, userAgent.c_str());
     duk_put_prop_string(this->jsGlobalContext, -2, "userAgent");
     // - app version
     duk_push_string(this->jsGlobalContext, "0.1.0");
     duk_put_prop_string(this->jsGlobalContext, -2, "appVersion");
     // - platform
-    duk_push_string(this->jsGlobalContext, "Darwin");
+    duk_push_string(this->jsGlobalContext, OS_NAME);
     duk_put_prop_string(this->jsGlobalContext, -2, "platform");
 
     // Leave global scope
