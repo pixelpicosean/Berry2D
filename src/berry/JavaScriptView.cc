@@ -1,5 +1,8 @@
 #include "JavaScriptView.h"
+
 #include <string>
+
+#include "LocalStorage.h"
 
 #if defined(WIN32)
 #  define OS_NAME "Windows"
@@ -45,6 +48,9 @@ JavaScriptView::JavaScriptView(int width, int height, const char *title):
     // Setup event callbacks
     theInput.setDelegate(this);
     glfwSetKeyCallback(this->window, &Input::keyCallback);
+
+    // Register built-in
+    js_register_LocalStorage(this->jsGlobalContext);
 
     // Load boot script
     this->loadScriptAtPath(BERRY_BOOT_JS);
