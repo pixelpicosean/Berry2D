@@ -21,7 +21,9 @@
         #endif
     #endif
 #endif
-#if defined(__APPLE__) || defined(__linux__)
+#if defined(__APPLE__)
+    #include <unordered_map>
+#elif defined(__linux__)
     #include <ext/hash_map>
 
     //GCC is picky about what types are allowed to be used as indices to hashes.
