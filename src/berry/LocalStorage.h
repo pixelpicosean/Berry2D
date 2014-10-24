@@ -10,16 +10,15 @@ namespace berry
 
 class LocalStorage
 {
-    const char *storageFile;
+    String storageFile;
+    String data;
 public:
     LocalStorage();
     ~LocalStorage() {}
 
-    const char *getItem(const char *key);
-    void setItem(const char *key, const char *value);
-    void removeItem(const char *key);
+    const String getData();
+    void setData(const String& value);
     void clear();
-    void key();
 };
 
 // Binding
