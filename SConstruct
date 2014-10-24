@@ -43,6 +43,9 @@ sources = Split("""
     src/berry/Canvas.cc
     src/berry/Core.cc
     src/berry/JavaScriptView.cc
+    src/berry/LocalStorage.cc
+    src/common/FileUtil.cc
+    src/common/StringUtil.cc
     src/common/Object.cc
     src/duktape/duktape.c
     src/main.cc

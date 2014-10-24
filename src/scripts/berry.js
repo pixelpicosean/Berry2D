@@ -181,12 +181,12 @@ window.top = window.parent = window;
     };
 
     // The native Image, Audio, HttpRequest and LocalStorage class mimic the real elements
-    window.Image = __BERRY__.Image;
-    window.Audio = __BERRY__.Audio;
-    window.Video = __BERRY__.Video;
-    window.XMLHttpRequest = __BERRY__.HttpRequest;
+    // window.Image = __BERRY__.Image;
+    // window.Audio = __BERRY__.Audio;
+    // window.Video = __BERRY__.Video;
+    // window.XMLHttpRequest = __BERRY__.HttpRequest;
     window.localStorage = new __BERRY__.LocalStorage();
-    window.WebSocket = __BERRY__.WebSocket;
+    // window.WebSocket = __BERRY__.WebSocket;
 
     window.Event = function(type) {
         this.type = type;
