@@ -48,4 +48,13 @@ document.addEventListener('custom', function() {
     print("event: custom");
 });
 
-print('localStorage.getItem("myHealth") = ' + localStorage.getItem('myHealth'));
+
+localStorage.setItem('myHealth', '100');
+localStorage.setItem('myMagic', 20);
+// print('typeof localStorage.__BERRY_DATA__: ' + typeof localStorage.__BERRY_DATA__);
+// print('localStorage.getItem("myHealth") = ' + localStorage.getItem('myHealth'));
+// print('localStorage.getItem("myMagic") = ' + localStorage.getItem('myMagic'));
+// localStorage.removeItem('myMagic');
+// print('localStorage.getItem("myMagic") = ' + localStorage.getItem('myMagic'));
+// localStorage.clear();
+// print('localStorage.getItem("myHealth") = ' + localStorage.getItem('myHealth'));
