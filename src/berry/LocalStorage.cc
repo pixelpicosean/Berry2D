@@ -12,7 +12,6 @@ LocalStorage::LocalStorage():
     // Make sure save directory exists
     makeDirectories(getStorageDirectory());
     this->data = readWholeFile(this->storageFile);
-    printf("storageFile: %s\n", this->storageFile.c_str());
 }
 
 const String LocalStorage::getData()
@@ -80,7 +79,8 @@ int w_LocalStorage_setItem(duk_context *ctx)
     duk_put_prop_string(ctx, -2, key); /* this, __BERRY_DATA__ */
 
     LocalStorage *inst = getNativePointer<LocalStorage>(ctx);
-    inst->setData(duk_to_string(ctx, -1)); /* this, string(__BERRY_DATA__) */
+    duk_json_encode(ctx, -1); /* this, JSON(__BERRY_DATA__) */
+    inst->setData(duk_to_string(ctx, -1)); /* this, string(JSON(__BERRY_DATA__)) */
 
     duk_pop_2(ctx);
 
@@ -95,7 +95,8 @@ int w_LocalStorage_removeItem(duk_context *ctx)
     duk_del_prop_string(ctx, -1, key); /* this, __BERRY_DATA__ */
 
     LocalStorage *inst = getNativePointer<LocalStorage>(ctx);
-    inst->setData(duk_to_string(ctx, -1)); /* this, string(__BERRY_DATA__) */
+    duk_json_encode(ctx, -1); /* this, JSON(__BERRY_DATA__) */
+    inst->setData(duk_to_string(ctx, -1)); /* this, string(JSON(__BERRY_DATA__)) */
 
     duk_pop_2(ctx);
 
