@@ -51,7 +51,7 @@ bool getLinesFromFile(const String& fileName, StringList& outList)
 	if (inputFile.is_open()) {
 		while (!inputFile.eof()) {
 			String line;
-			getline (inputFile,line);
+			getline(inputFile,line);
 			outList.push_back(line);
 		}
 		inputFile.close();
