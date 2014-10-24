@@ -33,13 +33,16 @@
  */
 #pragma once
 
+#include <string>
 #include <vector>
 #include <set>
+#include <map>
 
 //Typedefs to let us reference things more sanely
-typedef std::string			String;
-typedef std::vector<String>	StringList;
-typedef std::set<String>	StringSet;
+typedef std::string			     String;
+typedef std::vector<String>	     StringList;
+typedef std::set<String>	     StringSet;
+typedef std::map<String, String> StringMap;
 
 /**
  * Convert a string to an integer.
