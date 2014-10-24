@@ -1,8 +1,8 @@
-# Berry2D
+# Mural
 ----
 
 ## About
-Berry2D is going to be a HTML5 canvas implementation in C++ with help of duktape.
+Mural is going to be a HTML5 canvas implementation in C++ with help of duktape.
 
 ## How To
 1. Install [SCons]()
