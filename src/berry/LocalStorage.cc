@@ -9,7 +9,10 @@ LocalStorage::LocalStorage():
     storageFile(getStorageDirectory() + "save-data.dat"),
     data("{}")
 {
+    // Make sure save directory exists
+    makeDirectories(getStorageDirectory());
     this->data = readWholeFile(this->storageFile);
+    printf("storageFile: %s\n", this->storageFile.c_str());
 }
 
 const String LocalStorage::getData()
