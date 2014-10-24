@@ -5,15 +5,19 @@
 namespace berry
 {
 
-LocalStorage::LocalStorage()
+LocalStorage::LocalStorage():
+    storageFile("save-data.dat")
 {
-
+    // this->storageFile += getExeName();
+    printf("LS file: %s\n", this->storageFile);
 }
-LocalStorage::~LocalStorage() {}
 
-// String LocalStorage::getItem(const String& key) {}
-void LocalStorage::setItem(const String& key, const String& value) {}
-void LocalStorage::removeItem(const String& key) {}
+const char *LocalStorage::getItem(const char *key)
+{
+    return "Hello";
+}
+void LocalStorage::setItem(const char *key, const char *value) {}
+void LocalStorage::removeItem(const char *key) {}
 void LocalStorage::clear() {}
 void LocalStorage::key() {}
 
@@ -37,7 +41,7 @@ int w_LocalStorage_getItem(duk_context *ctx)
 {
     const char *key = duk_to_string(ctx, 0); /* arguments[0] */
     LocalStorage *inst = getNativePointer<LocalStorage>(ctx);
-    duk_push_string(ctx, inst->getItem(key).c_str());
+    duk_push_string(ctx, inst->getItem(key));
 
     return 1;
 }
