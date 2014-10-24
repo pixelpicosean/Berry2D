@@ -47,3 +47,5 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('custom', function() {
     print("event: custom");
 });
+
+print('localStorage.getItem("myHealth") = ' + localStorage.getItem('myHealth'));
