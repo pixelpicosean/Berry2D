@@ -18,10 +18,9 @@
  * 3. This notice may not be removed or altered from any source distribution.
  **/
 
-#ifndef BERRY_COMMON_OBJECT_H
-#define BERRY_COMMON_OBJECT_H
+#pragma once
 
-namespace berry
+namespace mural
 {
 
 /**
@@ -159,6 +158,4 @@ private:
 
 }; // Object
 
-} // love
-
-#endif // BERRY_COMMON_OBJECT_H
+}

@@ -1,14 +1,14 @@
-#ifndef BERRY_BERRY_JAVASCRIPTVIEW_H
-#define BERRY_BERRY_JAVASCRIPTVIEW_H
+#pragma once
 
 #include <GLFW/glfw3.h>
 
 #include "../common/BindUtil.h"
 
-#define BERRY_VERSION "0.1"
-#define BERRY_BOOT_JS "src/scripts/berry.js"
+#define MURAL_VERSION "0.1"
+#define MURAL_BOOT_JS "src/scripts/mural.js"
 
-namespace berry {
+namespace mural
+{
 
 class JavaScriptView
 {
@@ -62,8 +62,6 @@ private:
     void operator=(Input const&) {}
 };
 
-#define theInput berry::Input::getInstance()
+#define theInput mural::Input::getInstance()
 
 }
-
-#endif

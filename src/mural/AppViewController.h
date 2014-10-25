@@ -1,9 +1,9 @@
-#ifndef BERRY_BERRY_APPVIEWCONTROLLER_H
-#define BERRY_BERRY_APPVIEWCONTROLLER_H
+#pragma once
 
 #include "JavaScriptView.h"
 
-namespace berry{
+namespace mural
+{
 
 class AppViewController
 {
@@ -29,6 +29,4 @@ private:
 
 }
 
-#define theAppController berry::AppViewController::getInstance()
-
-#endif
+#define theAppController mural::AppViewController::getInstance()

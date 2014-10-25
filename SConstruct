@@ -21,7 +21,7 @@ elif env['mode'] == 'profile':
     env.Append(CCFLAGS = ['-Wall', '-pg', '-O0', '-DNDEBUG'])
 
 # env.Append(CCFLAGS = ['-DLINUX'])
-env.Append(CXXFLAGS = ['-std=c++11'])
+env.Append(CXXFLAGS = ['-std=c++11', '-stdlib=libc++'])
 
 # Frameworks
 env.Append(FRAMEWORKS = [
@@ -39,15 +39,15 @@ env.Append(LIBS = ['glfw3'])
 # Build
 # - Packages
 sources = Split("""
-    src/berry/AppViewController.cc
-    src/berry/Canvas.cc
-    src/berry/Core.cc
-    src/berry/JavaScriptView.cc
-    src/berry/LocalStorage.cc
+    src/mural/AppViewController.cc
+    src/mural/Canvas.cc
+    src/mural/Core.cc
+    src/mural/JavaScriptView.cc
+    src/mural/LocalStorage.cc
     src/common/FileUtil.cc
     src/common/StringUtil.cc
     src/common/Object.cc
     src/duktape/duktape.c
     src/main.cc
 """)
-env.Program('#bin/%s/berry' % env['mode'], sources)
+env.Program('#bin/%s/mural' % env['mode'], sources)

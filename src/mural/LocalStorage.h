@@ -1,11 +1,10 @@
-#ifndef BERRY_BERRY_LOCAL_STORAGE_H
-#define BERRY_BERRY_LOCAL_STORAGE_H
+#pragma once
 
 #include "../common/common.h"
 #include "../common/StringUtil.h"
 #include "../common/BindUtil.h"
 
-namespace berry
+namespace mural
 {
 
 class LocalStorage
@@ -32,5 +31,3 @@ int w_LocalStorage_key(duk_context *ctx);
 void js_register_LocalStorage(duk_context *ctx);
 
 }
-
-#endif

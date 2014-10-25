@@ -1,6 +1,7 @@
 #include "Canvas.h"
 
-namespace berry{
+namespace mural
+{
 
 Canvas::Canvas() {}
 

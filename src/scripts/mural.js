@@ -7,7 +7,7 @@ window.top = window.parent = window;
     var animFrameCallbacks = [], rafRemoveList = [], nextAnimFrameCallbackID = 0;
     var timeoutCallbacks = [], timeoutRemoveList = [], nextTimeoutCallbackID = 0;
     var intervalCallbacks = [], intervalRemoveList = [], nextIntervalCallbackID = 0;
-    __BERRY__.tickAnimFrame = function tickAnimFrame() {
+    __MURAL__.tickAnimFrame = function tickAnimFrame() {
         var i, len;
         for (i = 0, len = rafRemoveList.length; i < len; i++) {
             animFrameCallbacks.splice(animFrameCallbacks.indexOf(rafRemoveList[i]), 1);
@@ -53,9 +53,9 @@ window.top = window.parent = window;
     };
 
 
-    // window.devicePixelRatio = __BERRY__.devicePixelRatio;
-    window.innerWidth = __BERRY__.screenWidth;
-    window.innerHeight = __BERRY__.screenHeight;
+    // window.devicePixelRatio = __MURAL__.devicePixelRatio;
+    window.innerWidth = __MURAL__.screenWidth;
+    window.innerHeight = __MURAL__.screenHeight;
 
     window.screen = {
         availWidth: window.innerWidth,
@@ -63,10 +63,10 @@ window.top = window.parent = window;
     };
 
     window.navigator = {
-        language: __BERRY__.language,
-        userAgent: __BERRY__.userAgent,
-        appVersion: __BERRY__.appVersion,
-        platform: __BERRY__.platform
+        language: __MURAL__.language,
+        userAgent: __MURAL__.userAgent,
+        appVersion: __MURAL__.appVersion,
+        platform: __MURAL__.platform
     };
 
     // The console object
@@ -181,12 +181,12 @@ window.top = window.parent = window;
     };
 
     // The native Image, Audio, HttpRequest and LocalStorage class mimic the real elements
-    // window.Image = __BERRY__.Image;
-    // window.Audio = __BERRY__.Audio;
-    // window.Video = __BERRY__.Video;
-    // window.XMLHttpRequest = __BERRY__.HttpRequest;
-    window.localStorage = new __BERRY__.LocalStorage();
-    // window.WebSocket = __BERRY__.WebSocket;
+    // window.Image = __MURAL__.Image;
+    // window.Audio = __MURAL__.Audio;
+    // window.Video = __MURAL__.Video;
+    // window.XMLHttpRequest = __MURAL__.HttpRequest;
+    window.localStorage = new __MURAL__.LocalStorage();
+    // window.WebSocket = __MURAL__.WebSocket;
 
     window.Event = function(type) {
         this.type = type;
@@ -290,21 +290,21 @@ window.top = window.parent = window;
 
         createElement: function(name) {
             if (name === 'canvas') {
-                var canvas = new __BERRY__.Canvas();
+                var canvas = new __MURAL__.Canvas();
                 canvas.type = 'canvas';
                 return canvas;
             }
             else if (name == 'audio') {
-                return new __BERRY__.Audio();
+                return new __MURAL__.Audio();
             }
             else if (name == 'video') {
-                return new __BERRY__.Video();
+                return new __MURAL__.Video();
             }
             else if (name === 'img') {
                 return new window.Image();
             }
             else if (name === 'input' || name === 'textarea') {
-                return new __BERRY__.KeyInput();
+                return new __MURAL__.KeyInput();
             }
             return new HTMLElement(name);
         },

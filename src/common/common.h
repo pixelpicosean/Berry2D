@@ -1,5 +1,4 @@
-#ifndef BERRY_COMMON_COMMON_H
-#define BERRY_COMMON_COMMON_H
+#pragma once
 
 #if defined(__APPLE__)
     #include "TargetConditionals.h"
@@ -39,6 +38,4 @@
             }
         };
     }
-#endif
-
 #endif

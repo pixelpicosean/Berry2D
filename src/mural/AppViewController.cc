@@ -1,6 +1,7 @@
 #include "AppViewController.h"
 
-namespace berry {
+namespace mural
+{
 
 AppViewController::~AppViewController()
 {

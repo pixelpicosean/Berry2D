@@ -15,7 +15,8 @@
 #  define OS_AGENT "(Linux; OS ?)"
 #endif
 
-namespace berry {
+namespace mural
+{
 
 JavaScriptView::JavaScriptView(int width, int height, const char *title):
     width(width),
@@ -28,7 +29,7 @@ JavaScriptView::JavaScriptView(int width, int height, const char *title):
     // Setup global namespace for Berry built-in
     duk_push_global_object(this->jsGlobalContext); /* global */
     duk_push_object(this->jsGlobalContext);
-    duk_put_prop_string(this->jsGlobalContext, -2, BERRY_JS_NAMESPACE);
+    duk_put_prop_string(this->jsGlobalContext, -2, MURAL_JS_NAMESPACE);
     duk_pop(this->jsGlobalContext);
 
     this->defineProperties();
@@ -53,7 +54,7 @@ JavaScriptView::JavaScriptView(int width, int height, const char *title):
     js_register_LocalStorage(this->jsGlobalContext);
 
     // Load boot script
-    this->loadScriptAtPath(BERRY_BOOT_JS);
+    this->loadScriptAtPath(MURAL_BOOT_JS);
 }
 JavaScriptView::~JavaScriptView()
 {
@@ -115,7 +116,7 @@ void JavaScriptView::run()
 
     // RAF
     duk_push_global_object(this->jsGlobalContext);
-    duk_get_prop_string(this->jsGlobalContext, -1, BERRY_JS_NAMESPACE); /* __BERRY__ */
+    duk_get_prop_string(this->jsGlobalContext, -1, MURAL_JS_NAMESPACE); /* __MURAL__ */
     duk_get_prop_string(this->jsGlobalContext, -1, "tickAnimFrame");
     duk_call(this->jsGlobalContext, 0);
     duk_pop_n(this->jsGlobalContext, 3);
@@ -126,9 +127,9 @@ void JavaScriptView::run()
 
 void JavaScriptView::defineProperties()
 {
-    // Set properties to __BERRY__
+    // Set properties to __MURAL__
     duk_push_global_object(this->jsGlobalContext);
-    duk_get_prop_string(this->jsGlobalContext, -1, BERRY_JS_NAMESPACE); /* __BERRY__ */
+    duk_get_prop_string(this->jsGlobalContext, -1, MURAL_JS_NAMESPACE); /* __MURAL__ */
 
     // - screenWidth
     duk_push_int(this->jsGlobalContext, width);
@@ -142,7 +143,7 @@ void JavaScriptView::defineProperties()
     duk_put_prop_string(this->jsGlobalContext, -2, "language");
     // - userAgent
     std::string userAgent("Ejecta/");
-    userAgent += BERRY_VERSION;
+    userAgent += MURAL_VERSION;
     userAgent += OS_AGENT;
     duk_push_string(this->jsGlobalContext, userAgent.c_str());
     duk_put_prop_string(this->jsGlobalContext, -2, "userAgent");

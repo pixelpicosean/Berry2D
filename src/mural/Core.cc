@@ -1,6 +1,7 @@
 #include "Core.h"
 
-namespace berry {
+namespace mural
+{
 
 Core::Core() {}
 

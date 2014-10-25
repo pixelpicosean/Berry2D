@@ -1,12 +1,11 @@
-#ifndef BERRY_COMMON_BIND_UTIL_H
-#define BERRY_COMMON_BIND_UTIL_H
+#pragma once
 
 #include "../duktape/duktape.h"
 
-namespace berry
+namespace mural
 {
 
-#define BERRY_JS_NAMESPACE "__BERRY__"
+#define MURAL_JS_NAMESPACE "__MURAL__"
 #define DATA_POINTER_NAME "__nativePointer__"
 
 template <class T>
@@ -30,5 +29,3 @@ void setNativePointer(duk_context *ctx, T *inst)
 }
 
 }
-
-#endif

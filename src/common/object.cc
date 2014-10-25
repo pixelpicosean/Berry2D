@@ -22,7 +22,7 @@
 
 #include <stdio.h>
 
-namespace berry
+namespace mural
 {
 
 Object::Object()
