@@ -3,6 +3,7 @@
 #include <GLFW/glfw3.h>
 
 #include "../common/BindUtil.h"
+#include "../common/MuOperationQueue.h"
 
 #define MURAL_VERSION "0.1"
 #define MURAL_BOOT_JS "src/scripts/mural.js"
@@ -23,6 +24,9 @@ class JavaScriptView
 public:
     JavaScriptView(int width, int height, const char *title);
     ~JavaScriptView();
+
+    // Properties
+    MuOperationQueue backgroundQueue;
 
     // Methods
     void loadScriptAtPath(const char *path);
