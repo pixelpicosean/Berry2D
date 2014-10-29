@@ -1,3 +1,5 @@
+#pragma once
+
 #include <queue>
 #include <thread>
 
@@ -16,6 +18,7 @@ public:
     MuOperationQueue();
     ~MuOperationQueue();
 
+    /* Operations run on a separate thread */
     void addOperation(MuOperation m);
 
     static MuOperationQueue& defaultQueue()
