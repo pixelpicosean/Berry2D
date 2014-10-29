@@ -1,6 +1,7 @@
 #include "JavaScriptView.h"
 
-#include <string>
+#include "../common/StringUtil.h"
+#include "../common/MuOperationQueue.h"
 
 #include "LocalStorage.h"
 #include "canvas/Image.h"
@@ -32,6 +33,9 @@ JavaScriptView::JavaScriptView(int width, int height, const char *title):
     duk_push_object(this->jsGlobalContext);
     duk_put_prop_string(this->jsGlobalContext, -2, MURAL_JS_NAMESPACE);
     duk_pop(this->jsGlobalContext);
+
+    // To make JavaScript objects accessible in C++
+    jsRefSetup(this->jsGlobalContext);
 
     // Load shim for duktape
     this->loadScriptAtPath(MURAL_SHIM_JS);

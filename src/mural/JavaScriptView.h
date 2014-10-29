@@ -2,6 +2,7 @@
 
 #include <GLFW/glfw3.h>
 
+#include "../common/common.h"
 #include "../common/BindUtil.h"
 
 #define MURAL_VERSION "0.1"
