@@ -181,7 +181,7 @@ window.top = window.parent = window;
     };
 
     // The native Image, Audio, HttpRequest and LocalStorage class mimic the real elements
-    // window.Image = __MURAL__.Image;
+    window.Image = __MURAL__.Image;
     // window.Audio = __MURAL__.Audio;
     // window.Video = __MURAL__.Video;
     // window.XMLHttpRequest = __MURAL__.HttpRequest;

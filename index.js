@@ -48,7 +48,6 @@ document.addEventListener('custom', function() {
     print("event: custom");
 });
 
-
 localStorage.setItem('myHealth', '100');
 localStorage.setItem('myMagic', 20);
 print('localStorage.getItem("myHealth") = ' + localStorage.getItem('myHealth'));
@@ -57,3 +56,8 @@ localStorage.removeItem('myMagic');
 print('localStorage.getItem("myMagic") = ' + localStorage.getItem('myMagic'));
 localStorage.clear();
 print('localStorage.getItem("myHealth") = ' + localStorage.getItem('myHealth'));
+
+var img = new Image();
+img.src = 'player.png';
+print('img src is: ' + img.src);
+print('img size: (' + img.width + ', ' + img.height + ')');

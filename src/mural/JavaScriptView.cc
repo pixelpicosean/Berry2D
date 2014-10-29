@@ -33,6 +33,9 @@ JavaScriptView::JavaScriptView(int width, int height, const char *title):
     duk_put_prop_string(this->jsGlobalContext, -2, MURAL_JS_NAMESPACE);
     duk_pop(this->jsGlobalContext);
 
+    // Load shim for duktape
+    this->loadScriptAtPath(MURAL_SHIM_JS);
+
     this->defineProperties();
 
     // Create a window
@@ -53,6 +56,7 @@ JavaScriptView::JavaScriptView(int width, int height, const char *title):
 
     // Register built-in
     js_register_LocalStorage(this->jsGlobalContext);
+    js_register_Image(this->jsGlobalContext);
 
     // Load boot script
     this->loadScriptAtPath(MURAL_BOOT_JS);
