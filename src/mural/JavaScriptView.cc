@@ -3,6 +3,7 @@
 #include <string>
 
 #include "LocalStorage.h"
+#include "canvas/Image.h"
 
 #if defined(WIN32)
 #  define OS_NAME "Windows"
@@ -155,7 +156,7 @@ void JavaScriptView::defineProperties()
     duk_put_prop_string(this->jsGlobalContext, -2, "platform");
 
     // Leave global scope
-    duk_pop(this->jsGlobalContext);
+    duk_pop_2(this->jsGlobalContext);
 }
 
 }

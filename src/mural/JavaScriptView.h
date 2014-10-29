@@ -3,9 +3,9 @@
 #include <GLFW/glfw3.h>
 
 #include "../common/BindUtil.h"
-#include "../common/MuOperationQueue.h"
 
 #define MURAL_VERSION "0.1"
+#define MURAL_SHIM_JS "src/scripts/shim.js"
 #define MURAL_BOOT_JS "src/scripts/mural.js"
 
 namespace mural
