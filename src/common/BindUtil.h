@@ -28,4 +28,9 @@ void setNativePointer(duk_context *ctx, T *inst)
     duk_pop(ctx);
 }
 
+void jsRefSetup(duk_context *ctx);
+int jsRef(duk_context *ctx);
+void jsPushRef(duk_context *ctx, int ref);
+void jsUnref(duk_context *ctx, int ref);
+
 }
