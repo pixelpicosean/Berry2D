@@ -1,7 +1,5 @@
 #include "AppViewController.h"
 
-// #include <thread>
-
 namespace mural
 {
 

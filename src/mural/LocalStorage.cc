@@ -1,5 +1,4 @@
 #include "LocalStorage.h"
-
 #include "../common/FileUtil.h"
 
 namespace mural
