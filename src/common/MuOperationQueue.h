@@ -18,6 +18,12 @@ public:
 
     void addOperation(MuOperation m);
 
+    static MuOperationQueue& defaultQueue()
+    {
+        static MuOperationQueue instance;
+        return instance;
+    }
+
 private:
     // No copy
     MuOperationQueue(const MuOperationQueue&) {}
