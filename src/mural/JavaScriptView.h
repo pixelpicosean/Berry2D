@@ -25,9 +25,6 @@ public:
     JavaScriptView(int width, int height, const char *title);
     ~JavaScriptView();
 
-    // Properties
-    MuOperationQueue backgroundQueue;
-
     // Methods
     void loadScriptAtPath(const char *path);
     void startRunning();
