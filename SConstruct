@@ -28,7 +28,8 @@ env.Append(FRAMEWORKS = [
     'Cocoa',
     'OpenGL',
     'IOKit',
-    'CoreVideo'
+    'CoreVideo',
+    'libpng'
 ])
 
 # Libs
@@ -41,9 +42,10 @@ env.Append(LIBS = ['glfw3'])
 sources = Split("""
     src/mural/AppViewController.cc
     src/mural/Canvas.cc
-    src/mural/Core.cc
     src/mural/JavaScriptView.cc
     src/mural/LocalStorage.cc
+    src/mural/Texture.cc
+    src/mural/canvas/Image.cc
     src/common/FileUtil.cc
     src/common/StringUtil.cc
     src/common/MuOperationQueue.cc
