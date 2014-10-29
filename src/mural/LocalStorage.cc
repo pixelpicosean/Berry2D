@@ -35,7 +35,8 @@ const duk_function_list_entry methods_of_LocalStorage[] = {
     { "setItem",    w_LocalStorage_setItem,     2 },
     { "removeItem", w_LocalStorage_removeItem,  1 },
     { "clear",      w_LocalStorage_clear,       0 },
-    { "key",        w_LocalStorage_key,         1 }
+    { "key",        w_LocalStorage_key,         1 },
+    { NULL, NULL, 0 }
 };
 
 // Binding
