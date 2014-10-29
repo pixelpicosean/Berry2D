@@ -137,6 +137,11 @@ void js_register_Image(duk_context *ctx)
     duk_put_function_list(ctx, -1, methods_of_Image); /* global, __MURAL__, constructor, prototype */
     duk_put_prop_string(ctx, -2, "prototype"); /* global, __MURAL__, constructor */
 
+    duk_get_prop_string(ctx, -1, "prototype");
+    duk_push_string(ctx, "IMG");
+    duk_put_prop_string(ctx, -2, "nodeName");
+    duk_pop(ctx);
+
     // Setup properties
     duk_eval_string(ctx, "__MURAL__.__defineGetter__"); /* global, __MURAL__, constructor, function */
     duk_get_prop_string(ctx, -2, "prototype"); /* global, __MURAL__, constructor, function, prototype */
