@@ -188,21 +188,7 @@ window.top = window.parent = window;
     window.localStorage = new __MURAL__.LocalStorage();
     // window.WebSocket = __MURAL__.WebSocket;
 
-    window.Event = function(type) {
-        this.type = type;
-        this.cancelBubble = false;
-        this.cancelable = false;
-        this.target = null;
-
-        this.initEvent = function(type, bubbles, cancelable) {
-            this.type = type;
-            this.cancelBubble = bubbles;
-            this.cancelable = cancelable;
-        };
-
-        this.preventDefault = function() {};
-        this.stopPropagation = function() {};
-    };
+    window.Event = __MURAL__.Event;
 
     window.location = { href: 'index' };
 
