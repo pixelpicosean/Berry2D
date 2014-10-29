@@ -175,6 +175,10 @@ void js_register_Image(duk_context *ctx)
     // Register as Image
     duk_put_prop_string(ctx, -2, "Image"); /* global, __MURAL__ */
     duk_pop_2(ctx);
+
+    // Inject eventMixin
+    duk_eval_string(ctx, "__MURAL__.eventMixin.call(__MURAL__.Image.prototype);");
+    duk_pop(ctx);
 }
 
 }
