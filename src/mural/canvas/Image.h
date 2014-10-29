@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../common/StringUtil.h"
 #include "../Texture.h"
+#include "../../common/common.h"
 #include "../../common/BindUtil.h"
 
 namespace mural
@@ -15,6 +15,9 @@ class Image
 public:
     Image();
     ~Image();
+
+    int jsObjIdx;
+    MuOperation loadCallback;
 
     Texture *getTexture();
 

@@ -6,7 +6,8 @@ namespace mural
 Image::Image():
     texture(nullptr),
     path(""),
-    loading(false)
+    loading(false),
+    loadCallback(nullptr)
 {}
 
 Image::~Image() {}
@@ -74,6 +75,9 @@ void Image::beginLoad()
     printf("Image loading\n");
     MuOperationQueue::defaultQueue().addOperation([&] {
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        this->texture = new Texture();
+        this->texture->width = 64;
+        this->texture->dimensionsKnown = true;
         this->endLoad();
     });
 }
@@ -81,12 +85,25 @@ void Image::beginLoad()
 void Image::endLoad()
 {
     this->loading = false;
+    if (this->loadCallback) {
+        this->loadCallback();
+    }
 }
 
 int w_Image_constructor(duk_context *ctx)
 {
-    auto inst = new Image();
+    Image *inst = new Image();
     setNativePointer(ctx, inst);
+    duk_push_this(ctx);
+    inst->jsObjIdx = jsRef(ctx);
+
+    inst->loadCallback = [=] {
+        jsPushRef(ctx, inst->jsObjIdx);
+        duk_push_string(ctx, "dispatchEvent");
+        duk_eval_string(ctx, "new window.Event('load')");
+        duk_call_prop(ctx, -3, 1);
+        duk_pop(ctx);
+    };
 
     return 1;
 }
