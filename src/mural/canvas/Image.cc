@@ -12,7 +12,7 @@ Image::Image():
 
 Image::~Image() {}
 
-Texture *Image::getTexture()
+std::shared_ptr<Texture> Image::getTexture()
 {
     return this->texture;
 }
@@ -68,16 +68,7 @@ void Image::beginLoad()
 {
     this->loading = true;
 
-    // this->texture = Texture::cachedTextureWithPath(this->path, MuOperationQueue::defaultQueue(), [&] {
-    //     this->endLoad();
-    // });
-
-    printf("Image loading\n");
-    MuOperationQueue::defaultQueue().addOperation([&] {
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-        this->texture = new Texture();
-        this->texture->width = 64;
-        this->texture->dimensionsKnown = true;
+    this->texture = Texture::cachedTextureWithPath(this->path, MuOperationQueue::defaultQueue(), [&] {
         this->endLoad();
     });
 }
@@ -87,6 +78,7 @@ void Image::endLoad()
     this->loading = false;
     if (this->loadCallback) {
         this->loadCallback();
+        this->loadCallback = nullptr;
     }
 }
 
@@ -98,9 +90,11 @@ int w_Image_constructor(duk_context *ctx)
     inst->jsObjIdx = jsRef(ctx);
 
     inst->loadCallback = [=] {
+        bool successful = inst->getTexture()->textureId;
+        const char *evtCode = successful ? "new window.Event('load')" : "new window.Event('error')";
         jsPushRef(ctx, inst->jsObjIdx);
         duk_push_string(ctx, "dispatchEvent");
-        duk_eval_string(ctx, "new window.Event('load')");
+        duk_eval_string(ctx, evtCode);
         duk_call_prop(ctx, -3, 1);
         duk_pop(ctx);
     };

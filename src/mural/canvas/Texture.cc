@@ -1,10 +1,14 @@
 #include "Texture.h"
 #include <cstdlib>
 
+#include "SharedTextureCache.h"
+
 namespace mural
 {
 
 Texture::Texture():
+    textureStorage(nullptr),
+    callback(nullptr),
     dimensionsKnown(false),
     width(0), height(0),
     fullPath(""),
@@ -14,27 +18,49 @@ Texture::Texture():
 
 Texture::~Texture() {}
 
-Texture *Texture::cachedTextureWithPath(String path, MuOperationQueue& queue, MuOperation callback)
+TexturePtr Texture::cachedTextureWithPath(String path, MuOperationQueue& queue, MuOperation callback)
 {
-    return (new Texture())->initWithPath(path, queue, callback);
+    TexturePtr texture;
+    auto it = theTextureCache.textures.find(path);
+    if (it != theTextureCache.textures.end()) {
+        texture = it->second;
+    }
+
+    if (texture) {
+        MuOperationQueue::defaultQueue().addOperation(callback);
+    }
+    else {
+        texture = TexturePtr(new Texture());
+        texture->initWithPath(path, queue, callback);
+    }
+
+    return texture;
 }
 
-Texture *Texture::initWithPath(String path, MuOperationQueue& queue, MuOperation callback)
+TexturePtr Texture::initWithPath(String path, MuOperationQueue& queue, MuOperation initCallback)
 {
     this->fullPath = path;
-    queue.addOperation([&] {
+    this->callback = [&] {
         bool result = this->loadPixelsFromPath(this->fullPath, this->data, this->width, this->height, false);
 
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
         if (result) {
-            this->dimensionsKnown = true;
+            queue.addBlockOperation([&] {
+                this->dimensionsKnown = true;
+                this->createWithPixels(this->data, GL_RGBA);
+            });
         }
+        else {
+            queue.addBlockOperation([&] {
+                initCallback();
+            });
+        }
+    };
 
-        callback();
-    });
+    queue.addOperation(this->callback);
 
-    return this;
+    return TexturePtr(this);
 }
 
 void Texture::createWithTexture(Texture *other) {}
@@ -43,13 +69,38 @@ void Texture::createWithPixels(PixelData *pixels, GLenum format)
 {
     this->createWithPixels(pixels, format, GL_TEXTURE_2D);
 }
-void Texture::createWithPixels(PixelData *pixels, GLenum format, GLenum target)
+void Texture::createWithPixels(PixelData *pixels, GLenum formatp, GLenum target)
 {
+    if (this->textureStorage) {
+        this->textureStorage = nullptr;
+    }
+
     // Set the default texture params for Canvas2D
-    params.kTextureParamMinFilter = GL_LINEAR;
-    params.kTextureParamMagFilter = GL_LINEAR;
-    params.kTextureParamWrapS = GL_CLAMP_TO_EDGE;
-    params.kTextureParamWrapT = GL_CLAMP_TO_EDGE;
+    this->params.kTextureParamMinFilter = GL_LINEAR;
+    this->params.kTextureParamMagFilter = GL_LINEAR;
+    this->params.kTextureParamWrapS = GL_CLAMP_TO_EDGE;
+    this->params.kTextureParamWrapT = GL_CLAMP_TO_EDGE;
+
+    GLint maxTextureSize;
+    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTextureSize);
+
+    if (this->width > maxTextureSize || this->height > maxTextureSize) {
+        printf("Warning: Image %s larger than MAX_TEXTURE_SIZE (%i)\n", this->fullPath.c_str(), maxTextureSize);
+        return;
+    }
+    this->format = formatp;
+
+    GLint boundTexture = 0;
+    GLenum bindingName = (target == GL_TEXTURE_2D) ?
+        GL_TEXTURE_BINDING_2D :
+        GL_TEXTURE_BINDING_CUBE_MAP;
+    glGetIntegerv(bindingName, &boundTexture);
+
+    this->textureStorage = std::shared_ptr<TextureStorage>(new TextureStorage(true));
+    this->textureStorage->bindToTarget(target, this->params);
+    glTexImage2D(target, 0, this->format, this->width, this->height, 0, format, GL_UNSIGNED_BYTE, this->data);
+
+    glBindTexture(target, boundTexture);
 }
 
 bool Texture::loadPixelsFromPath(const String& filename, PixelData* &image_buffer, tex_uint &width, tex_uint &height, bool optional)
@@ -57,7 +108,7 @@ bool Texture::loadPixelsFromPath(const String& filename, PixelData* &image_buffe
     FILE *PNG_file = fopen(filename.c_str(), "rb");
     if (PNG_file == NULL) {
         if (!optional)
-            printf("ERROR: Couldn't open %s.", filename.c_str());
+            printf("ERROR: Couldn't open %s.\n", filename.c_str());
         return false;
     }
 
@@ -66,14 +117,14 @@ bool Texture::loadPixelsFromPath(const String& filename, PixelData* &image_buffe
     fread(PNG_header, 1, 8, PNG_file);
     if (png_sig_cmp(PNG_header, 0, 8) != 0) {
         if (!optional)
-            printf("ERROR: %s is not a PNG.", filename.c_str());
+            printf("ERROR: %s is not a PNG.\n", filename.c_str());
         return false;
     }
 
     png_structp PNG_reader = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
     if (PNG_reader == NULL) {
         if (!optional)
-            printf("ERROR: Can't start reading %s.", filename.c_str());
+            printf("ERROR: Can't start reading %s.\n", filename.c_str());
         fclose(PNG_file);
         return false;
     }
@@ -81,7 +132,7 @@ bool Texture::loadPixelsFromPath(const String& filename, PixelData* &image_buffe
     png_infop PNG_info = png_create_info_struct(PNG_reader);
     if (PNG_info == NULL) {
         if (!optional)
-            printf("ERROR: Can't get info for %s.", filename.c_str());
+            printf("ERROR: Can't get info for %s.\n", filename.c_str());
         png_destroy_read_struct(&PNG_reader, NULL, NULL);
         fclose(PNG_file);
         return false;
@@ -90,7 +141,7 @@ bool Texture::loadPixelsFromPath(const String& filename, PixelData* &image_buffe
     png_infop PNG_end_info = png_create_info_struct(PNG_reader);
     if (PNG_end_info == NULL) {
         if (!optional)
-            printf("ERROR: Can't get end info for %s.", filename.c_str());
+            printf("ERROR: Can't get end info for %s.\n", filename.c_str());
         png_destroy_read_struct(&PNG_reader, &PNG_info, NULL);
         fclose(PNG_file);
         return false;
@@ -98,7 +149,7 @@ bool Texture::loadPixelsFromPath(const String& filename, PixelData* &image_buffe
 
     if (setjmp(png_jmpbuf(PNG_reader))) {
         if (!optional)
-            printf("ERROR: Can't load %s.", filename.c_str());
+            printf("ERROR: Can't load %s.\n", filename.c_str());
         png_destroy_read_struct(&PNG_reader, &PNG_info, &PNG_end_info);
         fclose(PNG_file);
         return false;

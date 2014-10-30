@@ -3,13 +3,14 @@
 #include "Texture.h"
 #include "../../common/common.h"
 #include "../../common/BindUtil.h"
+#include <memory>
 
 namespace mural
 {
 
 class Image
 {
-    Texture *texture;
+    std::shared_ptr<Texture> texture;
     String path;
     bool loading;
 public:
@@ -19,7 +20,7 @@ public:
     int jsObjIdx;
     MuOperation loadCallback;
 
-    Texture *getTexture();
+    std::shared_ptr<Texture> getTexture();
 
     double getWidth();
     double getHeight();

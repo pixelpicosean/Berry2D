@@ -1,6 +1,5 @@
 #pragma once
 
-#include <GLFW/glfw3.h>
 #include <libpng/png.h>
 #include "../../common/StringUtil.h"
 #include "../../common/MuOperationQueue.h"
@@ -9,16 +8,23 @@
 namespace mural
 {
 
+class Texture;
+typedef std::shared_ptr<Texture> TexturePtr;
 typedef png_byte PixelData;
 typedef png_uint_32 tex_uint;
 
 class Texture
 {
     TextureParams params;
+    GLuint fbo;
+    std::shared_ptr<TextureStorage> textureStorage;
 
 public:
+    MuOperation callback;
+
     bool dimensionsKnown;
     tex_uint width, height;
+    GLenum format;
     String fullPath;
     float contentScale;
 
@@ -30,9 +36,9 @@ public:
     ~Texture();
 
     // For loading on a background thread (non-blocking), but tries the cache first
-    static Texture *cachedTextureWithPath(String path, MuOperationQueue& queue, MuOperation callback);
+    static TexturePtr cachedTextureWithPath(String path, MuOperationQueue& queue, MuOperation callback);
     // For loading on a background thread (non-blocking)
-    Texture *initWithPath(String path, MuOperationQueue& queue, MuOperation callback);
+    TexturePtr initWithPath(String path, MuOperationQueue& queue, MuOperation callback);
 
     void createWithTexture(Texture *other);
     void createWithPixels(PixelData *pixels, GLenum format);
