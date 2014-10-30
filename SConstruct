@@ -41,11 +41,11 @@ env.Append(LIBS = ['glfw3'])
 # - Packages
 sources = Split("""
     src/mural/AppViewController.cc
-    src/mural/Canvas.cc
     src/mural/JavaScriptView.cc
     src/mural/LocalStorage.cc
-    src/mural/Texture.cc
+    src/mural/canvas/Canvas.cc
     src/mural/canvas/Image.cc
+    src/mural/canvas/Texture.cc
     src/common/BindUtil.cc
     src/common/FileUtil.cc
     src/common/StringUtil.cc

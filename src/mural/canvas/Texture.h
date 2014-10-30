@@ -2,8 +2,8 @@
 
 #include <GLFW/glfw3.h>
 #include <libpng/png.h>
-#include "../common/StringUtil.h"
-#include "../common/MuOperationQueue.h"
+#include "../../common/StringUtil.h"
+#include "../../common/MuOperationQueue.h"
 
 namespace mural
 {
