@@ -1,5 +1,7 @@
 #pragma once
 
+#include <GLFW/glfw3.h>
+
 namespace mural
 {
 
@@ -13,8 +15,16 @@ struct TextureParams {
 class TextureStorage
 {
 public:
-    TextureStorage();
+    TextureParams params;
+    GLuint textureId;
+    bool immutable;
+    /*lastBound*/
+
+public:
+    TextureStorage(bool immutable = false);
     ~TextureStorage();
+
+    void bindToTarget(GLenum target, const TextureParams& params);
 };
 
 }
