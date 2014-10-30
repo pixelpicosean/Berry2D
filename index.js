@@ -61,7 +61,9 @@ var img = new Image();
 print('img.nodeName = ' + img.nodeName);
 img.onload = function(event) {
     print('image loaded');
+    print('image size: (' + img.width + ', ' + img.height + ')');
 };
-img.src = 'player.png';
-print('img src is: ' + img.src);
-print('img size: (' + img.width + ', ' + img.height + ')');
+img.onerror = function(event) {
+    print('failed to load image: ' + img.src);
+};
+img.src = 'assets/heart.png';
