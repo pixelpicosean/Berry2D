@@ -54,6 +54,16 @@ JavaScriptView::JavaScriptView(int width, int height, const char *title):
     // Setup OpenGL context
     glfwMakeContextCurrent(this->window);
 
+    #if !MURAL_MOBILE
+    #else
+        glEnable(GL_POLYGON_OFFSET_FILL);
+        glPolygonOffset(1.0f, -1.0f);
+    #endif
+    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_TEXTURE_2D);
+
     // Setup event callbacks
     theInput.setDelegate(this);
     glfwSetKeyCallback(this->window, &Input::keyCallback);
@@ -67,6 +77,9 @@ JavaScriptView::JavaScriptView(int width, int height, const char *title):
 }
 JavaScriptView::~JavaScriptView()
 {
+    // OpenGL reset
+    glDisable(GL_TEXTURE_2D);
+
     // Cleanup JavaScript engine
     duk_destroy_heap(this->jsGlobalContext);
 
@@ -104,6 +117,7 @@ void JavaScriptView::run()
     ratio = width / (float) height;
 
     glViewport(0, 0, width, height);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
     glMatrixMode(GL_PROJECTION);
@@ -122,6 +136,9 @@ void JavaScriptView::run()
         glColor3f(0.0f, 0.f, 1.0f);
         glVertex3f(0.f, 0.6f, 0.0f);
     glEnd();
+
+    // Block operations
+    MuOperationQueue::defaultQueue().doBlockOperations();
 
     // RAF
     duk_push_global_object(this->jsGlobalContext);
