@@ -45,6 +45,7 @@ sources = Split("""
     src/mural/LocalStorage.cc
     src/mural/canvas/Canvas.cc
     src/mural/canvas/Image.cc
+    src/mural/canvas/SharedTextureCache.cc
     src/mural/canvas/Texture.cc
     src/mural/canvas/TextureStorage.cc
     src/common/BindUtil.cc
