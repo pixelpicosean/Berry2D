@@ -4,16 +4,10 @@
 #include <libpng/png.h>
 #include "../../common/StringUtil.h"
 #include "../../common/MuOperationQueue.h"
+#include "TextureStorage.h"
 
 namespace mural
 {
-
-struct TextureParams {
-    int kTextureParamMinFilter;
-    int kTextureParamMagFilter;
-    int kTextureParamWrapS;
-    int kTextureParamWrapT;
-};
 
 typedef png_byte PixelData;
 typedef png_uint_32 tex_uint;
