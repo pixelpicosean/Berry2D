@@ -7,7 +7,7 @@ MuOperationQueue::MuOperationQueue():
     done(false)
 {
     this->thd = std::unique_ptr<std::thread>(new std::thread([=] {
-        this->run();
+        this->doUnblockOperations();
     }));
 }
 
@@ -24,7 +24,21 @@ void MuOperationQueue::addOperation(MuOperation m)
     this->mq.push(m);
 }
 
-void MuOperationQueue::run()
+void MuOperationQueue::addBlockOperation(MuOperation m)
+{
+    this->bmq.push(m);
+}
+
+void MuOperationQueue::doBlockOperations()
+{
+    while (this->bmq.size() > 0) {
+        MuOperation msg = this->bmq.front();
+        bmq.pop();
+        msg();
+    }
+}
+
+void MuOperationQueue::doUnblockOperations()
 {
     while (!done) {
         if (this->mq.size() > 0) {

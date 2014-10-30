@@ -12,6 +12,7 @@ class MuOperationQueue
 {
     bool done;
     std::queue<MuOperation> mq;
+    std::queue<MuOperation> bmq;
     std::unique_ptr<std::thread> thd;
 
 public:
@@ -20,6 +21,8 @@ public:
 
     /* Operations run on a separate thread */
     void addOperation(MuOperation m);
+    /* Operations run on a main thread (for OpenGL...) */
+    void addBlockOperation(MuOperation m);
 
     static MuOperationQueue& defaultQueue()
     {
@@ -27,12 +30,14 @@ public:
         return instance;
     }
 
+    void doBlockOperations();
+
 private:
     // No copy
     MuOperationQueue(const MuOperationQueue&) {}
     void operator=(const MuOperationQueue&) {}
 
-    void run();
+    void doUnblockOperations();
 };
 
 }
