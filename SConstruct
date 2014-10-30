@@ -50,7 +50,6 @@ sources = Split("""
     src/common/FileUtil.cc
     src/common/StringUtil.cc
     src/common/MuOperationQueue.cc
-    src/common/Object.cc
     src/duktape/duktape.c
     src/main.cc
 """)
