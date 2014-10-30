@@ -30,11 +30,11 @@ void LocalStorage::clear()
 }
 
 const duk_function_list_entry methods_of_LocalStorage[] = {
-    { "getItem",    w_LocalStorage_getItem,     1 },
-    { "setItem",    w_LocalStorage_setItem,     2 },
-    { "removeItem", w_LocalStorage_removeItem,  1 },
-    { "clear",      w_LocalStorage_clear,       0 },
-    { "key",        w_LocalStorage_key,         1 },
+    { "getItem",    w_LocalStorage_prototype_getItem,     1 },
+    { "setItem",    w_LocalStorage_prototype_setItem,     2 },
+    { "removeItem", w_LocalStorage_prototype_removeItem,  1 },
+    { "clear",      w_LocalStorage_prototype_clear,       0 },
+    { "key",        w_LocalStorage_prototype_key,         1 },
     { NULL, NULL, 0 }
 };
 
@@ -52,7 +52,7 @@ int w_LocalStorage_constructor(duk_context *ctx)
 
     return 1;
 }
-int w_LocalStorage_getItem(duk_context *ctx)
+int w_LocalStorage_prototype_getItem(duk_context *ctx)
 {
     const char *key = duk_require_string(ctx, 0);
 
@@ -66,7 +66,7 @@ int w_LocalStorage_getItem(duk_context *ctx)
 
     return 1;
 }
-int w_LocalStorage_setItem(duk_context *ctx)
+int w_LocalStorage_prototype_setItem(duk_context *ctx)
 {
     const char *key = duk_require_string(ctx, 0);
     // Make sure value is string
@@ -86,7 +86,7 @@ int w_LocalStorage_setItem(duk_context *ctx)
 
     return 0;
 }
-int w_LocalStorage_removeItem(duk_context *ctx)
+int w_LocalStorage_prototype_removeItem(duk_context *ctx)
 {
     const char *key = duk_require_string(ctx, 0);
 
@@ -102,7 +102,7 @@ int w_LocalStorage_removeItem(duk_context *ctx)
 
     return 0;
 }
-int w_LocalStorage_clear(duk_context *ctx)
+int w_LocalStorage_prototype_clear(duk_context *ctx)
 {
     duk_push_this(ctx); /* this */
     duk_push_object(ctx); /* this, emptyObj */
@@ -114,7 +114,7 @@ int w_LocalStorage_clear(duk_context *ctx)
 
     return 0;
 }
-int w_LocalStorage_key(duk_context *ctx)
+int w_LocalStorage_prototype_key(duk_context *ctx)
 {
     return 1;
 }
