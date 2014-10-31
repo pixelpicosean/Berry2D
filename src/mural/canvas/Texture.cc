@@ -44,7 +44,7 @@ Texture *Texture::initWithPath(String path, MuOperationQueue& queue, MuOperation
     this->callback = [&] {
         bool result = this->loadPixelsFromPath(this->fullPath, this->data, this->width, this->height, false);
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        // std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
         if (result) {
             queue.addBlockOperation([&] {
