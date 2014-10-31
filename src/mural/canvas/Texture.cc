@@ -40,6 +40,7 @@ Texture *Texture::cachedTextureWithPath(String path, MuOperationQueue& queue, Mu
 Texture *Texture::initWithPath(String path, MuOperationQueue& queue, MuOperation initCallback)
 {
     this->fullPath = path;
+    this->loadCompleteCallback = initCallback;
     this->callback = [&] {
         bool result = this->loadPixelsFromPath(this->fullPath, this->data, this->width, this->height, false);
 
@@ -47,13 +48,20 @@ Texture *Texture::initWithPath(String path, MuOperationQueue& queue, MuOperation
 
         if (result) {
             queue.addBlockOperation([&] {
+                // printf("IMAGE: %s load completed\n", this->fullPath.c_str());
                 this->dimensionsKnown = true;
                 this->createWithPixels(this->data, GL_RGBA);
+                if (this->loadCompleteCallback) {
+                    this->loadCompleteCallback();
+                }
             });
         }
         else {
             queue.addBlockOperation([&] {
-                initCallback();
+                // printf("IMAGE: fail to load %s\n", this->fullPath.c_str());
+                if (this->loadCompleteCallback) {
+                    this->loadCompleteCallback();
+                }
             });
         }
     };

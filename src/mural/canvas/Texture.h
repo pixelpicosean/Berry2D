@@ -19,6 +19,7 @@ class Texture
     TextureStorage *textureStorage = nullptr;
 
     MuOperation callback = nullptr;
+    MuOperation loadCompleteCallback = nullptr;
 public:
 
     bool dimensionsKnown;
