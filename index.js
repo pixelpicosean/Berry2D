@@ -60,8 +60,7 @@ print('localStorage.getItem("myHealth") = ' + localStorage.getItem('myHealth'));
 var img = new Image();
 print('img.nodeName = ' + img.nodeName);
 img.onload = function(event) {
-    print('image loaded');
-    print('image size: (' + img.width + ', ' + img.height + ')');
+    print('image ' + img.src + ' loaded successfully, size: (' + img.width + ', ' + img.height + ')');
 };
 img.onerror = function(event) {
     print('failed to load image: ' + img.src);
