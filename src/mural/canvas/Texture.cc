@@ -18,26 +18,26 @@ Texture::Texture():
 
 Texture::~Texture() {}
 
-TexturePtr Texture::cachedTextureWithPath(String path, MuOperationQueue& queue, MuOperation callback)
+Texture *Texture::cachedTextureWithPath(String path, MuOperationQueue& queue, MuOperation callback)
 {
-    TexturePtr texture;
+    Texture *texture = nullptr;
     auto it = theTextureCache.textures.find(path);
     if (it != theTextureCache.textures.end()) {
         texture = it->second;
     }
 
     if (texture) {
-        MuOperationQueue::defaultQueue().addOperation(callback);
+        MuOperationQueue::defaultQueue().addBlockOperation(callback);
     }
     else {
-        texture = TexturePtr(new Texture());
+        texture = new Texture();
         texture->initWithPath(path, queue, callback);
     }
 
     return texture;
 }
 
-TexturePtr Texture::initWithPath(String path, MuOperationQueue& queue, MuOperation initCallback)
+Texture *Texture::initWithPath(String path, MuOperationQueue& queue, MuOperation initCallback)
 {
     this->fullPath = path;
     this->callback = [&] {
@@ -60,7 +60,7 @@ TexturePtr Texture::initWithPath(String path, MuOperationQueue& queue, MuOperati
 
     queue.addOperation(this->callback);
 
-    return TexturePtr(this);
+    return this;
 }
 
 void Texture::createWithTexture(Texture *other) {}
@@ -96,7 +96,7 @@ void Texture::createWithPixels(PixelData *pixels, GLenum formatp, GLenum target)
         GL_TEXTURE_BINDING_CUBE_MAP;
     glGetIntegerv(bindingName, &boundTexture);
 
-    this->textureStorage = std::shared_ptr<TextureStorage>(new TextureStorage(true));
+    this->textureStorage = new TextureStorage(true);
     this->textureStorage->bindToTarget(target, this->params);
     glTexImage2D(target, 0, this->format, this->width, this->height, 0, format, GL_UNSIGNED_BYTE, this->data);
 

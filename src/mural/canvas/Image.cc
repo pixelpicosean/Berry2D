@@ -12,7 +12,7 @@ Image::Image():
 
 Image::~Image() {}
 
-std::shared_ptr<Texture> Image::getTexture()
+Texture *Image::getTexture()
 {
     return this->texture;
 }
@@ -70,6 +70,7 @@ void Image::beginLoad()
 
     this->texture = Texture::cachedTextureWithPath(this->path, MuOperationQueue::defaultQueue(), [&] {
         this->endLoad();
+        // printf("IMAGE: endLoad\n");
     });
 }
 
@@ -90,7 +91,7 @@ int w_Image_constructor(duk_context *ctx)
     inst->jsObjIdx = jsRef(ctx);
 
     inst->loadCallback = [=] {
-        bool successful = inst->getTexture()->textureId;
+        bool successful = inst->getTexture()->dimensionsKnown;
         const char *evtCode = successful ? "new window.Event('load')" : "new window.Event('error')";
         jsPushRef(ctx, inst->jsObjIdx);
         duk_push_string(ctx, "dispatchEvent");

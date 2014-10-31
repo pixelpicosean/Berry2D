@@ -2,7 +2,6 @@
 
 #include "../../common/StringUtil.h"
 #include <map>
-#include <memory>
 
 namespace mural
 {
@@ -11,7 +10,7 @@ class Texture;
 class SharedTextureCache
 {
 public:
-    std::map<String, std::shared_ptr<Texture> > textures;
+    std::map<String, Texture*> textures;
 
 public:
     static SharedTextureCache& getInstance()

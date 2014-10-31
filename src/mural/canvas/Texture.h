@@ -9,18 +9,17 @@ namespace mural
 {
 
 class Texture;
-typedef std::shared_ptr<Texture> TexturePtr;
 typedef png_byte PixelData;
 typedef png_uint_32 tex_uint;
 
 class Texture
 {
     TextureParams params;
-    GLuint fbo;
-    std::shared_ptr<TextureStorage> textureStorage;
+    // GLuint fbo;
+    TextureStorage *textureStorage = nullptr;
 
+    MuOperation callback = nullptr;
 public:
-    MuOperation callback;
 
     bool dimensionsKnown;
     tex_uint width, height;
@@ -36,9 +35,9 @@ public:
     ~Texture();
 
     // For loading on a background thread (non-blocking), but tries the cache first
-    static TexturePtr cachedTextureWithPath(String path, MuOperationQueue& queue, MuOperation callback);
+    static Texture *cachedTextureWithPath(String path, MuOperationQueue& queue, MuOperation callback);
     // For loading on a background thread (non-blocking)
-    TexturePtr initWithPath(String path, MuOperationQueue& queue, MuOperation callback);
+    Texture *initWithPath(String path, MuOperationQueue& queue, MuOperation callback);
 
     void createWithTexture(Texture *other);
     void createWithPixels(PixelData *pixels, GLenum format);
