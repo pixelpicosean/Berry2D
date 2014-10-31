@@ -12,7 +12,11 @@ class MuOperationQueue
 {
     bool done;
     std::queue<MuOperation> mq;
+
     std::queue<MuOperation> bmq;
+    std::queue<MuOperation> bmq2;
+    int currentBmqIdx;
+
     std::unique_ptr<std::thread> thd;
 
 public:

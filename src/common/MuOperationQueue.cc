@@ -4,7 +4,8 @@ namespace mural
 {
 
 MuOperationQueue::MuOperationQueue():
-    done(false)
+    done(false),
+    currentBmqIdx(1)
 {
     this->thd = std::unique_ptr<std::thread>(new std::thread([=] {
         this->doUnblockOperations();
@@ -17,6 +18,8 @@ MuOperationQueue::~MuOperationQueue()
         done = true;
     });
     this->thd->join();
+
+    // TODO: complete all block operations
 }
 
 void MuOperationQueue::addOperation(MuOperation m)
@@ -26,15 +29,35 @@ void MuOperationQueue::addOperation(MuOperation m)
 
 void MuOperationQueue::addBlockOperation(MuOperation m)
 {
-    this->bmq.push(m);
+    if (this->currentBmqIdx == 1) {
+        this->bmq.push(m);
+    }
+    else {
+        this->bmq2.push(m);
+    }
 }
 
 void MuOperationQueue::doBlockOperations()
 {
-    while (this->bmq.size() > 0) {
-        MuOperation msg = this->bmq.front();
-        bmq.pop();
-        msg();
+    if (this->currentBmqIdx == 1) {
+        // Swap queue
+        this->currentBmqIdx = 2;
+
+        while (this->bmq.size() > 0) {
+            MuOperation msg = this->bmq.front();
+            bmq.pop();
+            msg();
+        }
+    }
+    else {
+        // Swap queue
+        this->currentBmqIdx = 1;
+
+        while (this->bmq2.size() > 0) {
+            MuOperation msg = this->bmq2.front();
+            bmq2.pop();
+            msg();
+        }
     }
 }
 
