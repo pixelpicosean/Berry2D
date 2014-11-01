@@ -88,12 +88,12 @@ int w_Image_constructor(duk_context *ctx)
     Image *inst = new Image();
     setNativePointer(ctx, inst);
     duk_push_this(ctx);
-    inst->jsObjIdx = jsRef(ctx);
+    inst->jsObjectRef = jsRef(ctx);
 
     inst->loadCallback = [=] {
         bool successful = inst->getTexture()->dimensionsKnown;
         const char *evtCode = successful ? "new window.Event('load')" : "new window.Event('error')";
-        jsPushRef(ctx, inst->jsObjIdx);
+        jsPushRef(ctx, inst->jsObjectRef);
         duk_push_string(ctx, "dispatchEvent");
         duk_eval_string(ctx, evtCode);
         duk_call_prop(ctx, -3, 1);
@@ -103,6 +103,11 @@ int w_Image_constructor(duk_context *ctx)
     return 1;
 }
 
+int w_Image_prototype_get_nodeName(duk_context *ctx)
+{
+    duk_push_string(ctx, "IMG");
+    return 1;
+}
 int w_Image_prototype_get_width(duk_context *ctx)
 {
     auto inst = getNativePointer<Image>(ctx);
@@ -135,58 +140,26 @@ int w_Image_prototype_set_src(duk_context *ctx)
     return 0;
 }
 
+const duk_number_list_entry numbers_of_Image[] = {
+    { NULL, 0.0 }
+};
 const duk_function_list_entry methods_of_Image[] = {
     { NULL, NULL, 0 }
 };
 
 void js_register_Image(duk_context *ctx)
 {
-    duk_push_global_object(ctx); /* global */
-    duk_get_prop_string(ctx, -1, MURAL_JS_NAMESPACE); /* global, __MURAL__ */
+    MU_START_BINDING(Image);
 
-    duk_push_c_function(ctx, w_Image_constructor, 0); /* global, __MURAL__, constructor */
-    duk_push_object(ctx); /* global, __MURAL__, constructor, prototype */
-    duk_put_function_list(ctx, -1, methods_of_Image); /* global, __MURAL__, constructor, prototype */
-    duk_put_prop_string(ctx, -2, "prototype"); /* global, __MURAL__, constructor */
+    MU_BIND_METHODS_AND_NUMBERS(Image); /* global, __MURAL__, constructor */
 
-    duk_get_prop_string(ctx, -1, "prototype");
-    duk_push_string(ctx, "IMG");
-    duk_put_prop_string(ctx, -2, "nodeName");
-    duk_pop(ctx);
+    MU_BIND_GET(Image, nodeName);
+    MU_BIND_GET(Image, width);
+    MU_BIND_GET(Image, height);
+    MU_BIND_GET(Image, complete);
+    MU_BIND_SET_GET(Image, src);
 
-    // Setup properties
-    duk_eval_string(ctx, "__MURAL__.__defineGetter__"); /* global, __MURAL__, constructor, function */
-    duk_get_prop_string(ctx, -2, "prototype"); /* global, __MURAL__, constructor, function, prototype */
-    duk_push_string(ctx, "width"); /* global, __MURAL__, constructor, function, prototype, width */
-    duk_push_c_function(ctx, w_Image_prototype_get_width, 0); /* global, __MURAL__, constructor, function, prototype, width, getter */
-    duk_call(ctx, 3); /* global, __MURAL__, constructor, return */
-    duk_pop(ctx); /* global, __MURAL__, constructor */
-
-    duk_eval_string(ctx, "__MURAL__.__defineGetter__"); /* global, __MURAL__, constructor, function */
-    duk_get_prop_string(ctx, -2, "prototype"); /* global, __MURAL__, constructor, function, prototype */
-    duk_push_string(ctx, "height"); /* global, __MURAL__, constructor, function, prototype, width */
-    duk_push_c_function(ctx, w_Image_prototype_get_height, 0); /* global, __MURAL__, constructor, function, prototype, width, getter */
-    duk_call(ctx, 3); /* global, __MURAL__, constructor, return */
-    duk_pop(ctx); /* global, __MURAL__, constructor */
-
-    duk_eval_string(ctx, "__MURAL__.__defineGetter__"); /* global, __MURAL__, constructor, function */
-    duk_get_prop_string(ctx, -2, "prototype"); /* global, __MURAL__, constructor, function, prototype */
-    duk_push_string(ctx, "complete"); /* global, __MURAL__, constructor, function, prototype, width */
-    duk_push_c_function(ctx, w_Image_prototype_get_complete, 0); /* global, __MURAL__, constructor, function, prototype, width, getter */
-    duk_call(ctx, 3); /* global, __MURAL__, constructor, return */
-    duk_pop(ctx); /* global, __MURAL__, constructor */
-
-    duk_eval_string(ctx, "__MURAL__.__defineAccessor__");
-    duk_get_prop_string(ctx, -2, "prototype");
-    duk_push_string(ctx, "src");
-    duk_push_c_function(ctx, w_Image_prototype_set_src, 1);
-    duk_push_c_function(ctx, w_Image_prototype_get_src, 0);
-    duk_call(ctx, 4);
-    duk_pop(ctx);
-
-    // Register as Image
-    duk_put_prop_string(ctx, -2, "Image"); /* global, __MURAL__ */
-    duk_pop_2(ctx);
+    MU_FINISH_BINDING(Image);
 
     // Inject eventMixin
     duk_eval_string(ctx, "__MURAL__.eventMixin.call(__MURAL__.Image.prototype);");

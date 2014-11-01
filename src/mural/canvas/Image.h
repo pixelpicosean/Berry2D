@@ -16,7 +16,7 @@ public:
     Image();
     ~Image();
 
-    int jsObjIdx;
+    int jsObjectRef;
     MuOperation loadCallback;
 
     Texture *getTexture();
