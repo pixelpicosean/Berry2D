@@ -44,6 +44,7 @@ sources = Split("""
     src/mural/JavaScriptView.cc
     src/mural/LocalStorage.cc
     src/mural/canvas/Canvas.cc
+    src/mural/canvas/CanvasContext.cc
     src/mural/canvas/Image.cc
     src/mural/canvas/SharedTextureCache.cc
     src/mural/canvas/Texture.cc
