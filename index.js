@@ -59,6 +59,8 @@ print('localStorage.getItem("myHealth") = ' + localStorage.getItem('myHealth'));
 
 var img = new Image();
 print('img.nodeName = ' + img.nodeName);
+img.nodeName = 'NONE';
+print('After set to NONE, img.nodeName = ' + img.nodeName);
 img.onload = function(event) {
     print('image ' + img.src + ' loaded successfully, size: (' + img.width + ', ' + img.height + ')');
 };
