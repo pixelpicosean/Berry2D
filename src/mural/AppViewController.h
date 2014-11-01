@@ -1,6 +1,7 @@
 #pragma once
 
 #include "JavaScriptView.h"
+#include "../common/StringUtil.h"
 
 namespace mural
 {
@@ -11,7 +12,8 @@ public:
     JavaScriptView *view;
 
 public:
-    void initWithScriptAtPath(const char *path, int width = 640, int height = 480, const char *title = "Berry2D");
+    void initWithScript(const String& path, int width = 640, int height = 480, const char *title = "Berry2D");
+    void initWithScripts(const StringList& path, int width = 640, int height = 480, const char *title = "Berry2D");
 
     static AppViewController& getInstance()
     {
