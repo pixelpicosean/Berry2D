@@ -5,7 +5,9 @@ int main(int argc, char const *argv[])
     StringList paths = {
         "tests/jasmine.js",
         "tests/jasmine-console.js",
-        "index.js"
+        "tests/jasmine-boot.js",
+        "tests/tests.js"
+        // "index.js"
     };
     theAppController.initWithScripts(
         paths,

@@ -25,8 +25,8 @@ function getJasmineRequireObj() {
     return exports;
   }
   else {
-    window.jasmine = window.jasmine || {};
-    return window.jasmine;
+    window.jasmineRequire = window.jasmineRequire || {};
+    return window.jasmineRequire;
   }
 }
 
