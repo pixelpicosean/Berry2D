@@ -3,6 +3,7 @@
 #include "../common/StringUtil.h"
 #include "../common/MuOperationQueue.h"
 
+#include "../common/JavaScriptUtil.h"
 #include "LocalStorage.h"
 #include "canvas/Image.h"
 
@@ -69,6 +70,7 @@ JavaScriptView::JavaScriptView(int width, int height, const char *title):
     glfwSetKeyCallback(this->window, &Input::keyCallback);
 
     // Register built-in
+    js_register_utils(this->jsGlobalContext);
     js_register_LocalStorage(this->jsGlobalContext);
     js_register_Image(this->jsGlobalContext);
 
