@@ -48,6 +48,8 @@ getJasmineRequireObj().ConsoleReporter = function() {
       timer = options.timer || noopTimer,
       specCount,
       failureCount,
+      pendingSpecs = [],
+      passedSpecs = [],
       failedSpecs = [],
       pendingCount,
       ansi = {
@@ -68,6 +70,9 @@ getJasmineRequireObj().ConsoleReporter = function() {
 
     this.jasmineDone = function() {
       printNewline();
+      for (var i = 0; i < passedSpecs.length; i++) {
+        // specPassedDetails(passedSpecs[i]);
+      }
       for (var i = 0; i < failedSpecs.length; i++) {
         specFailureDetails(failedSpecs[i]);
       }
@@ -101,11 +106,13 @@ getJasmineRequireObj().ConsoleReporter = function() {
 
       if (result.status == 'pending') {
         pendingCount++;
+        pendingSpecs.push(result);
         print(colored('yellow', '*'));
         return;
       }
 
       if (result.status == 'passed') {
+        passedSpecs.push(result);
         print(colored('green', '.'));
         return;
       }
@@ -148,6 +155,11 @@ getJasmineRequireObj().ConsoleReporter = function() {
       return newArr.join('\n');
     }
 
+    function specPassedDetails(result) {
+      print(colored('green', result.fullName));
+
+      printNewline();
+    }
     function specFailureDetails(result) {
       printNewline();
       print(result.fullName);
@@ -155,8 +167,8 @@ getJasmineRequireObj().ConsoleReporter = function() {
       for (var i = 0; i < result.failedExpectations.length; i++) {
         var failedExpectation = result.failedExpectations[i];
         printNewline();
-        print(indent(failedExpectation.message, 2));
-        print(indent(failedExpectation.stack, 2));
+        print(colored('red', indent(failedExpectation.message, 2)));
+        // print(indent(failedExpectation.stack, 2));
       }
 
       printNewline();

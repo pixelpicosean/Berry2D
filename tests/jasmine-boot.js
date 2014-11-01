@@ -49,7 +49,7 @@
    */
   var consoleReporter = new jasmine.ConsoleReporter({
     env: env,
-    print: window.print,
+    print: window.printNoReturn,
     showColors: true,
     timer: new jasmine.Timer()
   });
