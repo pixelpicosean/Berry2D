@@ -17,12 +17,12 @@ class JavaScriptView
     duk_context *jsGlobalContext;
     GLFWwindow *window;
 
-    int width;
-    int height;
-
     const char *lang;
 
 public:
+    int width, height;
+    bool hasScreenCanvas;
+
     JavaScriptView(int width, int height, const char *title);
     ~JavaScriptView();
 

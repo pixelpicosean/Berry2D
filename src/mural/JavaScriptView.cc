@@ -22,9 +22,12 @@ namespace mural
 {
 
 JavaScriptView::JavaScriptView(int width, int height, const char *title):
+    jsGlobalContext(nullptr),
+    window(nullptr),
+    lang("en"),
     width(width),
     height(height),
-    lang("en")
+    hasScreenCanvas(false)
 {
     // Create the global JS context
     this->jsGlobalContext = duk_create_heap_default();
