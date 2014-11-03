@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Canvas2DTypes.h"
+#include "MuCanvas2DTypes.h"
 
 #define Mu_PATH_RECURSION_LIMIT 8
 #define Mu_PATH_DISTANCE_EPSILON 1.0f
@@ -21,7 +21,7 @@ typedef enum {
     kMuPathFillRuleEvenOdd
 } MuPathFillRule;
 
-class CanvasContext2D;
+class MuCanvasContext2D;
 class MuPath
 {
     MuVector2 currentPos, lastPushed;
@@ -50,8 +50,8 @@ public:
     void arcTo(float x1, float y1, float x2, float y2, float radius);
     void arc(float x, float y, float radius, float startAngle, float endAngle, bool antiClockwise);
 
-    void drawPolygonsToContext(CanvasContext2D *context, MuPathFillRule fillRule, MuPathPolygonTarget target);
-    void drawLinesToContext(CanvasContext2D *context);
+    void drawPolygonsToContext(MuCanvasContext2D *context, MuPathFillRule fillRule, MuPathPolygonTarget target);
+    void drawLinesToContext(MuCanvasContext2D *context);
 };
 
 }

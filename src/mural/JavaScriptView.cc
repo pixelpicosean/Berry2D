@@ -4,8 +4,8 @@
 #include "../common/MuOperationQueue.h"
 
 #include "../common/JavaScriptUtil.h"
-#include "LocalStorage.h"
-#include "canvas/Image.h"
+#include "MuLocalStorage.h"
+#include "canvas/MuImage.h"
 
 #if defined(WIN32)
 #  define OS_NAME "Windows"

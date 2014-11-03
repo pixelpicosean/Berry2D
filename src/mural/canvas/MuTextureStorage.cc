@@ -1,23 +1,23 @@
-#include "TextureStorage.h"
+#include "MuTextureStorage.h"
 
 namespace mural
 {
 
-TextureStorage::TextureStorage(bool immutable):
+MuTextureStorage::MuTextureStorage(bool immutable):
     textureId(0),
     immutable(immutable)
 {
     glGenTextures(1, &textureId);
 }
 
-TextureStorage::~TextureStorage()
+MuTextureStorage::~MuTextureStorage()
 {
     if (this->textureId) {
         glDeleteTextures(1, &textureId);
     }
 }
 
-void TextureStorage::bindToTarget(GLenum target, const TextureParams& newParams)
+void MuTextureStorage::bindToTarget(GLenum target, const MuTextureParams& newParams)
 {
     glBindTexture(target, this->textureId);
 

@@ -1,10 +1,10 @@
-#include "LocalStorage.h"
+#include "MuLocalStorage.h"
 #include "../common/FileUtil.h"
 
 namespace mural
 {
 
-LocalStorage::LocalStorage():
+MuLocalStorage::MuLocalStorage():
     storageFile(getStorageDirectory() + "save-data.dat"),
     data("{}")
 {
@@ -13,18 +13,18 @@ LocalStorage::LocalStorage():
     this->data = readWholeFile(this->storageFile);
 }
 
-const String LocalStorage::getData()
+const String MuLocalStorage::getData()
 {
     return this->data;
 }
-void LocalStorage::setData(const String& value)
+void MuLocalStorage::setData(const String& value)
 {
     this->data = value;
     StringList data = { this->data };
     writeLinesToFile(this->storageFile, data);
 }
 static const StringList empty = { "{}" };
-void LocalStorage::clear()
+void MuLocalStorage::clear()
 {
     writeLinesToFile(this->storageFile, empty);
 }
@@ -41,7 +41,7 @@ const duk_function_list_entry methods_of_LocalStorage[] = {
 // Binding
 int w_LocalStorage_constructor(duk_context *ctx)
 {
-    LocalStorage *inst = new LocalStorage();
+    MuLocalStorage *inst = new MuLocalStorage();
     setNativePointer(ctx, inst);
 
     // Create an object property to save data
@@ -78,7 +78,7 @@ int w_LocalStorage_prototype_setItem(duk_context *ctx)
     duk_push_string(ctx, value); /* this, __MURAL_DATA__, value */
     duk_put_prop_string(ctx, -2, key); /* this, __MURAL_DATA__ */
 
-    LocalStorage *inst = getNativePointer<LocalStorage>(ctx);
+    MuLocalStorage *inst = getNativePointer<MuLocalStorage>(ctx);
     duk_json_encode(ctx, -1); /* this, JSON(__MURAL_DATA__) */
     inst->setData(duk_to_string(ctx, -1)); /* this, string(JSON(__MURAL_DATA__)) */
 
@@ -94,7 +94,7 @@ int w_LocalStorage_prototype_removeItem(duk_context *ctx)
     duk_get_prop_string(ctx, -1, "__MURAL_DATA__"); /* this, __MURAL_DATA__ */
     duk_del_prop_string(ctx, -1, key); /* this, __MURAL_DATA__ */
 
-    LocalStorage *inst = getNativePointer<LocalStorage>(ctx);
+    MuLocalStorage *inst = getNativePointer<MuLocalStorage>(ctx);
     duk_json_encode(ctx, -1); /* this, JSON(__MURAL_DATA__) */
     inst->setData(duk_to_string(ctx, -1)); /* this, string(JSON(__MURAL_DATA__)) */
 
@@ -109,7 +109,7 @@ int w_LocalStorage_prototype_clear(duk_context *ctx)
     duk_put_prop_string(ctx, -2, "__MURAL_DATA__"); /* this */
     duk_pop(ctx);
 
-    LocalStorage *inst = getNativePointer<LocalStorage>(ctx);
+    MuLocalStorage *inst = getNativePointer<MuLocalStorage>(ctx);
     inst->clear();
 
     return 0;

@@ -1,20 +1,10 @@
 #pragma once
 
 #include <cmath>
-#include "../../../common/AffineTransform.h"
+#include "../MuCanvasTypes.h"
 
 namespace mural
 {
-
-union MuColorRGBA
-{
-    struct rgba
-    {
-        unsigned char r, g, b, a;
-    };
-    unsigned char components[4];
-    unsigned int hex;
-};
 
 struct MuVector2
 {

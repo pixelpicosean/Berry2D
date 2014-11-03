@@ -1,12 +1,12 @@
-#include "Texture.h"
+#include "MuTexture.h"
 #include <cstdlib>
 
-#include "SharedTextureCache.h"
+#include "MuSharedTextureCache.h"
 
 namespace mural
 {
 
-Texture::Texture():
+MuTexture::MuTexture():
     textureStorage(nullptr),
     callback(nullptr),
     dimensionsKnown(false),
@@ -16,11 +16,11 @@ Texture::Texture():
     textureId(0)
 {}
 
-Texture::~Texture() {}
+MuTexture::~MuTexture() {}
 
-Texture *Texture::cachedTextureWithPath(String path, MuOperationQueue& queue, MuOperation callback)
+MuTexture *MuTexture::cachedTextureWithPath(String path, MuOperationQueue& queue, MuOperation callback)
 {
-    Texture *texture = nullptr;
+    MuTexture *texture = nullptr;
     auto it = theTextureCache.textures.find(path);
     if (it != theTextureCache.textures.end()) {
         texture = it->second;
@@ -30,14 +30,14 @@ Texture *Texture::cachedTextureWithPath(String path, MuOperationQueue& queue, Mu
         MuOperationQueue::defaultQueue().addBlockOperation(callback);
     }
     else {
-        texture = new Texture();
+        texture = new MuTexture();
         texture->initWithPath(path, queue, callback);
     }
 
     return texture;
 }
 
-Texture *Texture::initWithPath(String path, MuOperationQueue& queue, MuOperation initCallback)
+MuTexture *MuTexture::initWithPath(String path, MuOperationQueue& queue, MuOperation initCallback)
 {
     this->fullPath = path;
     this->loadCompleteCallback = initCallback;
@@ -71,13 +71,13 @@ Texture *Texture::initWithPath(String path, MuOperationQueue& queue, MuOperation
     return this;
 }
 
-void Texture::createWithTexture(Texture *other) {}
+void MuTexture::createWithTexture(MuTexture *other) {}
 
-void Texture::createWithPixels(PixelData *pixels, GLenum format)
+void MuTexture::createWithPixels(PixelData *pixels, GLenum format)
 {
     this->createWithPixels(pixels, format, GL_TEXTURE_2D);
 }
-void Texture::createWithPixels(PixelData *pixels, GLenum formatp, GLenum target)
+void MuTexture::createWithPixels(PixelData *pixels, GLenum formatp, GLenum target)
 {
     if (this->textureStorage) {
         this->textureStorage = nullptr;
@@ -104,14 +104,14 @@ void Texture::createWithPixels(PixelData *pixels, GLenum formatp, GLenum target)
         GL_TEXTURE_BINDING_CUBE_MAP;
     glGetIntegerv(bindingName, &boundTexture);
 
-    this->textureStorage = new TextureStorage(true);
+    this->textureStorage = new MuTextureStorage(true);
     this->textureStorage->bindToTarget(target, this->params);
     glTexImage2D(target, 0, this->format, this->width, this->height, 0, format, GL_UNSIGNED_BYTE, this->data);
 
     glBindTexture(target, boundTexture);
 }
 
-bool Texture::loadPixelsFromPath(const String& filename, PixelData* &image_buffer, tex_uint &width, tex_uint &height, bool optional)
+bool MuTexture::loadPixelsFromPath(const String& filename, PixelData* &image_buffer, tex_uint &width, tex_uint &height, bool optional)
 {
     FILE *PNG_file = fopen(filename.c_str(), "rb");
     if (PNG_file == NULL) {

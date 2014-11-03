@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../CanvasContext.h"
+
 namespace mural
 {
 

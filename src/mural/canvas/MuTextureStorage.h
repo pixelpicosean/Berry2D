@@ -5,26 +5,26 @@
 namespace mural
 {
 
-struct TextureParams {
+struct MuTextureParams {
     int kTextureParamMinFilter;
     int kTextureParamMagFilter;
     int kTextureParamWrapS;
     int kTextureParamWrapT;
 };
 
-class TextureStorage
+class MuTextureStorage
 {
 public:
-    TextureParams params;
+    MuTextureParams params;
     GLuint textureId;
     bool immutable;
     /*lastBound*/
 
 public:
-    TextureStorage(bool immutable = false);
-    ~TextureStorage();
+    MuTextureStorage(bool immutable = false);
+    ~MuTextureStorage();
 
-    void bindToTarget(GLenum target, const TextureParams& params);
+    void bindToTarget(GLenum target, const MuTextureParams& params);
 };
 
 }

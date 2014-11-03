@@ -1,10 +1,10 @@
-#include "Canvas.h"
+#include "MuCanvas.h"
 #include "../JavaScriptView.h"
 
 namespace mural
 {
 
-Canvas::Canvas(JavaScriptView *scriptView):
+MuCanvas::MuCanvas(JavaScriptView *scriptView):
     scriptView(scriptView),
     renderingContext(nullptr),
     contextMode(kMuCanvasContextModeInvalid),
@@ -24,7 +24,7 @@ Canvas::Canvas(JavaScriptView *scriptView):
     this->height = this->scriptView->height;
 }
 
-Canvas::~Canvas()
+MuCanvas::~MuCanvas()
 {
     if (this->isScreenCanvas) {
         this->scriptView->hasScreenCanvas = false;
@@ -32,11 +32,11 @@ Canvas::~Canvas()
     /* Delete style object */
 }
 
-float Canvas::getStyleLeft() { return 0.0f; }
-float Canvas::getStyleTop() { return 0.0f; }
-float Canvas::getStyleWidth() { return 0.0f; }
-float Canvas::getStyleHeight() { return 0.0f; }
+float MuCanvas::getStyleLeft() { return 0.0f; }
+float MuCanvas::getStyleTop() { return 0.0f; }
+float MuCanvas::getStyleWidth() { return 0.0f; }
+float MuCanvas::getStyleHeight() { return 0.0f; }
 
-Texture *Canvas::getTexture() { return nullptr; }
+MuTexture *MuCanvas::getTexture() { return nullptr; }
 
 }

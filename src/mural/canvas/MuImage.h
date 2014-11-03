@@ -1,25 +1,25 @@
 #pragma once
 
-#include "Texture.h"
+#include "MuTexture.h"
 #include "../../common/common.h"
 #include "../../common/BindUtil.h"
 
 namespace mural
 {
 
-class Image
+class MuImage
 {
-    Texture *texture;
+    MuTexture *texture;
     String path;
     bool loading;
 public:
-    Image();
-    ~Image();
+    MuImage();
+    ~MuImage();
 
     int jsObjectRef;
     MuOperation loadCallback;
 
-    Texture *getTexture();
+    MuTexture *getTexture();
 
     double getWidth();
     double getHeight();

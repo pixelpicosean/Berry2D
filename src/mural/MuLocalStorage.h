@@ -7,13 +7,13 @@
 namespace mural
 {
 
-class LocalStorage
+class MuLocalStorage
 {
     String storageFile;
     String data;
 public:
-    LocalStorage();
-    ~LocalStorage() {}
+    MuLocalStorage();
+    ~MuLocalStorage() {}
 
     const String getData();
     void setData(const String& value);

@@ -1,23 +1,23 @@
-#include "Image.h"
+#include "MuImage.h"
 
 namespace mural
 {
 
-Image::Image():
+MuImage::MuImage():
     texture(nullptr),
     path(""),
     loading(false),
     loadCallback(nullptr)
 {}
 
-Image::~Image() {}
+MuImage::~MuImage() {}
 
-Texture *Image::getTexture()
+MuTexture *MuImage::getTexture()
 {
     return this->texture;
 }
 
-double Image::getWidth()
+double MuImage::getWidth()
 {
     if (this->texture && this->texture->dimensionsKnown) {
         return this->texture->width / this->texture->contentScale;
@@ -26,7 +26,7 @@ double Image::getWidth()
         return 0;
     }
 }
-double Image::getHeight()
+double MuImage::getHeight()
 {
     if (this->texture && this->texture->dimensionsKnown) {
         return this->texture->height / this->texture->contentScale;
@@ -35,7 +35,7 @@ double Image::getHeight()
         return 0;
     }
 }
-bool Image::getComplete()
+bool MuImage::getComplete()
 {
     if (this->texture && this->texture->dimensionsKnown) {
         return this->texture->textureId;
@@ -45,7 +45,7 @@ bool Image::getComplete()
     }
 }
 
-void Image::setSrc(const String& path)
+void MuImage::setSrc(const String& path)
 {
     if (this->loading) {
         return;
@@ -59,22 +59,22 @@ void Image::setSrc(const String& path)
     this->beginLoad();
 }
 
-String Image::getSrc()
+String MuImage::getSrc()
 {
     return this->path;
 }
 
-void Image::beginLoad()
+void MuImage::beginLoad()
 {
     this->loading = true;
 
-    this->texture = Texture::cachedTextureWithPath(this->path, MuOperationQueue::defaultQueue(), [&] {
+    this->texture = MuTexture::cachedTextureWithPath(this->path, MuOperationQueue::defaultQueue(), [&] {
         this->endLoad();
         // printf("IMAGE: endLoad\n");
     });
 }
 
-void Image::endLoad()
+void MuImage::endLoad()
 {
     this->loading = false;
     if (this->loadCallback) {
@@ -85,7 +85,7 @@ void Image::endLoad()
 
 int w_Image_constructor(duk_context *ctx)
 {
-    Image *inst = new Image();
+    MuImage *inst = new MuImage();
     setNativePointer(ctx, inst);
     duk_push_this(ctx);
     inst->jsObjectRef = jsRef(ctx);
@@ -110,32 +110,32 @@ int w_Image_prototype_get_nodeName(duk_context *ctx)
 }
 int w_Image_prototype_get_width(duk_context *ctx)
 {
-    auto inst = getNativePointer<Image>(ctx);
+    auto inst = getNativePointer<MuImage>(ctx);
     duk_push_number(ctx, inst->getWidth());
     return 1;
 }
 int w_Image_prototype_get_height(duk_context *ctx)
 {
-    auto inst = getNativePointer<Image>(ctx);
+    auto inst = getNativePointer<MuImage>(ctx);
     duk_push_number(ctx, inst->getHeight());
     return 1;
 }
 int w_Image_prototype_get_complete(duk_context *ctx)
 {
-    auto inst = getNativePointer<Image>(ctx);
+    auto inst = getNativePointer<MuImage>(ctx);
     duk_push_boolean(ctx, inst->getComplete());
     return 1;
 }
 int w_Image_prototype_get_src(duk_context *ctx)
 {
-    auto inst = getNativePointer<Image>(ctx);
+    auto inst = getNativePointer<MuImage>(ctx);
     duk_push_string(ctx, inst->getSrc().c_str());
     return 1;
 }
 int w_Image_prototype_set_src(duk_context *ctx)
 {
     const char *path = duk_to_string(ctx, 0);
-    auto inst = getNativePointer<Image>(ctx);
+    auto inst = getNativePointer<MuImage>(ctx);
     inst->setSrc(path);
     return 0;
 }
@@ -162,7 +162,7 @@ void js_register_Image(duk_context *ctx)
     MU_FINISH_BINDING(Image);
 
     // Inject eventMixin
-    duk_eval_string(ctx, "__MURAL__.eventMixin.call(__MURAL__.Image.prototype);");
+    duk_eval_string(ctx, "__MURAL__.eventMixin.call(__MURAL__.MuImage.prototype);");
     duk_pop(ctx);
 }
 

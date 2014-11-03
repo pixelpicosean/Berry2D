@@ -42,14 +42,15 @@ env.Append(LIBS = ['glfw3'])
 sources = Split("""
     src/mural/AppViewController.cc
     src/mural/JavaScriptView.cc
-    src/mural/LocalStorage.cc
-    src/mural/canvas/Canvas.cc
-    src/mural/canvas/CanvasContext.cc
-    src/mural/canvas/Image.cc
-    src/mural/canvas/SharedTextureCache.cc
-    src/mural/canvas/Texture.cc
-    src/mural/canvas/TextureStorage.cc
-    src/common/AffineTransform.cc
+    src/mural/MuLocalStorage.cc
+    src/mural/canvas/MuCanvas.cc
+    src/mural/canvas/MuCanvasContext.cc
+    src/mural/canvas/MuImage.cc
+    src/mural/canvas/MuSharedTextureCache.cc
+    src/mural/canvas/MuTexture.cc
+    src/mural/canvas/MuTextureStorage.cc
+    src/mural/canvas/2D/MuCanvasContext2D.cc
+    src/common/MuAffineTransform.cc
     src/common/BindUtil.cc
     src/common/FileUtil.cc
     src/common/StringUtil.cc
