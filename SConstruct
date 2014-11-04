@@ -50,6 +50,7 @@ sources = Split("""
     src/mural/canvas/MuTexture.cc
     src/mural/canvas/MuTextureStorage.cc
     src/mural/canvas/2D/MuCanvasContext2D.cc
+    src/mural/canvas/2D/MuGLProgram2D.cc
     src/common/MuAffineTransform.cc
     src/common/BindUtil.cc
     src/common/FileUtil.cc
