@@ -9,6 +9,11 @@ int main(int argc, char const *argv[])
         "tests/tests.js"
         // "index.js"
     };
+
+    juce::Logger *log = juce::Logger::getCurrentLogger();
+    juce::String message("Hello from JUCE default logger");
+    log->writeToLog(message);
+
     theAppController.initWithScripts(
         paths,
         640, 480,
