@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../CanvasContext.h"
+#include "../MuCanvasContext.h"
 
 namespace mural
 {

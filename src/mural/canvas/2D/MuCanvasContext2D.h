@@ -1,8 +1,9 @@
 #pragma once
 
 #include "../MuTexture.h"
-#include "MuCanvas2DTypes.h"
 #include "../MuCanvasContext.h"
+#include "MuCanvas2DTypes.h"
+#include "MuGLProgram2D.h"
 
 #define MU_CANVAS_STATE_STACK_SIZE 16
 
@@ -127,11 +128,11 @@ protected:
 
     bool upsideDown;
 
-    // MuGLProgram2D *currentProgram;
+    MuGLProgram2D *currentProgram;
     // MuSharedOpenGLContext *sharedGLContext;
     MuFillable* fillObject;
 
-    // void setProgram(MuGLProgram2D *program);
+    void setProgram(MuGLProgram2D *program);
 
 public:
     // NSCache * fontCache;
