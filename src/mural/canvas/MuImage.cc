@@ -162,7 +162,7 @@ void js_register_Image(duk_context *ctx)
     MU_FINISH_BINDING(Image);
 
     // Inject eventMixin
-    duk_eval_string(ctx, "__MURAL__.eventMixin.call(__MURAL__.MuImage.prototype);");
+    duk_eval_string(ctx, "__MURAL__.eventMixin.call(__MURAL__.Image.prototype);");
     duk_pop(ctx);
 }
 
