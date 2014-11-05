@@ -33,9 +33,13 @@ env.Append(FRAMEWORKS = [
 ])
 
 # Libs
-env.Append(CPPPATH = ['/usr/local/include'])
+env.Append(CPPPATH = ['/usr/local/include', 'src/juce_core'])
 env.Append(LIBPATH = ['/usr/local/lib'])
-env.Append(LIBS = ['glfw3'])
+env.Append(LIBS = ['juce_core', 'glfw3'])
+if env['mode'] == 'debug':
+    env.Append(LIBPATH=['lib/juce_core/debug'])
+else:
+    env.Append(LIBPATH=['lib/juce_core/release'])
 
 # Build
 # - Packages
@@ -43,14 +47,10 @@ sources = Split("""
     src/mural/AppViewController.cc
     src/mural/JavaScriptView.cc
     src/mural/MuLocalStorage.cc
-    src/mural/canvas/MuCanvas.cc
-    src/mural/canvas/MuCanvasContext.cc
     src/mural/canvas/MuImage.cc
     src/mural/canvas/MuSharedTextureCache.cc
     src/mural/canvas/MuTexture.cc
     src/mural/canvas/MuTextureStorage.cc
-    src/mural/canvas/2D/MuCanvasContext2D.cc
-    src/mural/canvas/2D/MuGLProgram2D.cc
     src/common/MuAffineTransform.cc
     src/common/BindUtil.cc
     src/common/FileUtil.cc
