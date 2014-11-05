@@ -4,6 +4,8 @@
 namespace mural
 {
 
+extern const MuAffineTransform MuAffineTransformIdentity = MuAffineTransformMakeIdentity();
+
 MuAffineTransform MuAffineTransformMake(float a, float b, float c, float d, float tx, float ty) {
     MuAffineTransform t;
     t.a = a; t.b = b; t.c = c; t.d = d; t.tx = tx; t.ty = ty;
