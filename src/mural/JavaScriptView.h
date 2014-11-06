@@ -23,11 +23,11 @@ public:
     int width, height;
     bool hasScreenCanvas;
 
-    JavaScriptView(int width, int height, const char *title);
+    JavaScriptView(int width, int height, const juce::String& title);
     ~JavaScriptView();
 
     // Methods
-    void loadScriptAtPath(const char *path);
+    void loadScriptAtPath(const juce::String& path);
     void startRunning();
 
     // Event callbacks

@@ -1,9 +1,8 @@
 #include "JavaScriptView.h"
 
-#include "../common/StringUtil.h"
 #include "../common/MuOperationQueue.h"
-
 #include "../common/JavaScriptUtil.h"
+
 #include "MuLocalStorage.h"
 #include "canvas/MuImage.h"
 
@@ -21,7 +20,7 @@
 namespace mural
 {
 
-JavaScriptView::JavaScriptView(int width, int height, const char *title):
+JavaScriptView::JavaScriptView(int width, int height, const juce::String& title):
     jsGlobalContext(nullptr),
     window(nullptr),
     lang("en"),
@@ -50,7 +49,7 @@ JavaScriptView::JavaScriptView(int width, int height, const char *title):
     if (!glfwInit()) {
         printf("[JavaScriptView]: unable to init GLFW\n");
     }
-    this->window = glfwCreateWindow(width, height, title, /*glfwGetPrimaryMonitor()*/NULL, NULL);
+    this->window = glfwCreateWindow(width, height, title.toUTF8(), /*glfwGetPrimaryMonitor()*/NULL, NULL);
     if (!this->window) {
         printf("[JavaScriptView]: unable to create window\n");
     }
@@ -93,9 +92,9 @@ JavaScriptView::~JavaScriptView()
     glfwTerminate();
 }
 
-void JavaScriptView::loadScriptAtPath(const char *path)
+void JavaScriptView::loadScriptAtPath(const juce::String& path)
 {
-    duk_eval_file(this->jsGlobalContext, path);
+    duk_eval_file(this->jsGlobalContext, path.toUTF8());
     duk_pop(this->jsGlobalContext);
 }
 
