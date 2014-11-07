@@ -1,6 +1,5 @@
 #include "../../../common/common.h"
 #include "MuCanvasContext2D.h"
-#include <GLFW/glfw3.h>
 #include "MuPath.h"
 
 namespace mural

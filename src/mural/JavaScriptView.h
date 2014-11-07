@@ -1,6 +1,6 @@
 #pragma once
 
-#include <GLFW/glfw3.h>
+#include "canvas/gl.h"
 
 #include "../common/common.h"
 #include "../common/BindUtil.h"
