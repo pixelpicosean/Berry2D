@@ -147,7 +147,6 @@ public:
     MuCanvasContext2D();
     MuCanvasContext2D(short widthp, short heightp);
     ~MuCanvasContext2D();
-    virtual void create();
     virtual void resizeToWidth(short newWidth, short newHeight);
     void setScreenSize(int widthp, int heightp);
     void createStencilBufferOnce();
@@ -187,12 +186,12 @@ public:
     void arcTo(float x1, float y1, float x2, float y2, float radius);
     void arc(float x, float y, float radius, float startAngle, float endAngle, bool antiClockwise);
     // MuFont* acquireFont(NSString* fontName , float pointSize ,BOOL fill ,float contentScale);
-    void fillText(const String& text, float x, float y);
-    void strokeText(const String& text, float x, float y);
-    float measureText(const String& text);
+    // void fillText(const String& text, float x, float y);
+    // void strokeText(const String& text, float x, float y);
+    // float measureText(const String& text);
 
-    void clip();
-    void resetClip();
+    // void clip();
+    // void resetClip();
 
     void setGlobalCompositeOperation(MuCompositeOperation op);
     MuCompositeOperation getGlobalCompositeOperation() const;
@@ -200,8 +199,8 @@ public:
     short getWidth() const;
     void setHeight(short h);
     short getHeight() const;
-    void setFillObject(MuFillable *pFillable);
-    MuFillable* getFillObject();
+    // void setFillObject(MuFillable *pFillable);
+    // MuFillable* getFillObject();
 };
 
 }

@@ -47,10 +47,17 @@ sources = Split("""
     src/mural/AppViewController.cc
     src/mural/JavaScriptView.cc
     src/mural/MuLocalStorage.cc
+    src/mural/canvas/MuCanvas.cc
+    src/mural/canvas/MuCanvasContext.cc
     src/mural/canvas/MuImage.cc
     src/mural/canvas/MuSharedTextureCache.cc
     src/mural/canvas/MuTexture.cc
     src/mural/canvas/MuTextureStorage.cc
+    src/mural/canvas/2D/MuCanvasContext2D.cc
+    src/mural/canvas/2D/MuCanvasContext2DScreen.cc
+    src/mural/canvas/2D/MuCanvasContext2DTexture.cc
+    src/mural/canvas/2D/MuGLProgram2D.cc
+    src/mural/canvas/2D/MuPath.cc
     src/common/MuAffineTransform.cc
     src/common/BindUtil.cc
     src/common/FileUtil.cc
