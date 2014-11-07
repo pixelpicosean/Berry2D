@@ -147,7 +147,7 @@ const String getStorageDirectory()
 	#elif defined(__APPLE__)
 		#if !BERRY_MOBILE
 			String writeDirectory = getenv("HOME");
-			writeDirectory += "/Library/Application Support/Berry2D/" + getExeName() + "/";
+			writeDirectory += "/Library/Application Support/Mural/" + getExeName() + "/";
 			return writeDirectory;
 		#else
 			NSArray* arrayPaths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
@@ -158,7 +158,7 @@ const String getStorageDirectory()
 		#endif
 	#elif defined(__linux__)
 		String writeDirectory = getenv("HOME");
-		writeDirectory += "/.berry2d/" + GetExeName() + "/";
+		writeDirectory += "/.mural/" + GetExeName() + "/";
 		return writeDirectory;
 	#endif
 }
