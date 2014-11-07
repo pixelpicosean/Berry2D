@@ -2,17 +2,13 @@
 
 int main(int argc, char const *argv[])
 {
-    const char *paths[] = {
-        "tests/jasmine.js",
-        "tests/jasmine-console.js",
-        "tests/jasmine-boot.js",
-        "tests/tests.js",
-        // "index.js",
-        NULL
-    };
-
-    theAppController.initWithScripts(
-        juce::StringArray(paths),
+    theAppController.initWithScripts({
+            "tests/jasmine.js",
+            "tests/jasmine-console.js",
+            "tests/jasmine-boot.js",
+            "tests/tests.js",
+            // "index.js",
+        },
         640, 480,
         "Mural Game"
     );
