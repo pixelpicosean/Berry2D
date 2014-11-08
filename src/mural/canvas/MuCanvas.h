@@ -1,7 +1,9 @@
 #pragma once
 
-#include "MuCanvasContext.h"
+#include "2D/MuCanvasContext2DScreen.h"
+#include "2D/MuCanvasContext2DTexture.h"
 #include "MuTexture.h"
+#include "../../common/BindUtil.h"
 
 namespace mural
 {
@@ -12,51 +14,22 @@ enum MuCanvasContextMode {
     kMuCanvasContextModeWebGL
 };
 
-static const char * MuLineCapNames[] = {
-    "butt",
-    "round",
-    "square"
+// Canvas Style
+class MuCanvas;
+struct MuCanvasStyle
+{
+    MuCanvas *binding = nullptr;
+    int jsObjectRef = 0;
 };
+int w_CanvasStyle_constructor(duk_context *ctx);
+int w_CanvasStyle_prototype_get_width(duk_context *ctx);
+int w_CanvasStyle_prototype_get_height(duk_context *ctx);
+int w_CanvasStyle_prototype_get_left(duk_context *ctx);
+int w_CanvasStyle_prototype_get_top(duk_context *ctx);
 
-static const char * MuLineJoinNames[] = {
-    "miter",
-    "bevel",
-    "round"
-};
+void js_register_CanvasStyle(duk_context *ctx);
 
-static const char * MuTextBaselineNames[] = {
-    "alphabetic",
-    "middle",
-    "top",
-    "hanging",
-    "bottom",
-    "ideographic"
-};
-
-static const char * MuTextAlignNames[] = {
-    "start",
-    "end",
-    "left",
-    "center",
-    "right"
-};
-
-static const char * MuCompositeOperationNames[] = {
-    "source-over",
-    "lighter",
-    "darker",
-    "destination-out",
-    "destination-over",
-    "source-atop",
-    "xor"
-};
-
-static const char * MuScalingModeNames[] = {
-    "none",
-    "fit-width",
-    "fit-height"
-};
-
+// Canvas
 class JavaScriptView;
 class MuCanvas
 {
@@ -66,8 +39,8 @@ class MuCanvas
     MuCanvasContextMode contextMode;
     short width, height;
 
-    /* Style object */
-    /* Style */
+    MuCanvasStyle *styleObject;
+    MuRect style;
 
     bool isScreenCanvas;
     bool useRetinaResolution;
@@ -75,12 +48,21 @@ class MuCanvas
     bool msaaEnabled;
     int msaaSamples;
 public:
-    int jsObjectRef;
+    int jsObjectRef = 0;
 
-    float getStyleLeft();
-    float getStyleTop();
+    float styleLeft = 0.0f ;
+    float styleTop = 0.0f ;
+    float styleWidth = 0.0f ;
+    float styleHeight = 0.0f ;
+
     float getStyleWidth();
+    void setStyleWidth(float);
     float getStyleHeight();
+    void setStyleHeight(float);
+    float getStyleLeft();
+    void setStyleLeft(float);
+    float getStyleTop();
+    void setStyleTop(float);
 
     MuTexture *getTexture();
 

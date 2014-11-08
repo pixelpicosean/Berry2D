@@ -5,6 +5,7 @@
 namespace mural
 {
 
+class MuTexture;
 class MuCanvasContext
 {
 protected:
@@ -14,6 +15,8 @@ public:
     int msaaSamples = 2;
     short width = 0;
     short height = 0;
+
+    MuTexture *texture;
 
     virtual void create();
     virtual void flushBuffers();
