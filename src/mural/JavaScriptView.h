@@ -4,6 +4,7 @@
 
 #include "../common/common.h"
 #include "../common/BindUtil.h"
+#include "canvas/MuCanvasContext.h"
 
 #define MURAL_VERSION "0.1"
 #define MURAL_SHIM_JS "src/scripts/shim.js"
@@ -22,6 +23,7 @@ class JavaScriptView
 public:
     int width, height;
     bool hasScreenCanvas;
+    MuCanvasContext *currentRenderingContext;
 
     JavaScriptView(int width, int height, const juce::String& title);
     ~JavaScriptView();

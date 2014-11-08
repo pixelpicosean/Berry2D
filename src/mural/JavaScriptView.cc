@@ -26,7 +26,8 @@ JavaScriptView::JavaScriptView(int width, int height, const juce::String& title)
     lang("en"),
     width(width),
     height(height),
-    hasScreenCanvas(false)
+    hasScreenCanvas(false),
+    currentRenderingContext(nullptr)
 {
     // Create the global JS context
     this->jsGlobalContext = duk_create_heap_default();
