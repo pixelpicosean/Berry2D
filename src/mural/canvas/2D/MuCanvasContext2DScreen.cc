@@ -23,4 +23,13 @@ void MuCanvasContext2DScreen::create()
     glBindRenderbuffer(GL_RENDERBUFFER, viewRenderBuffer);
 }
 
+void MuCanvasContext2DScreen::present()
+{
+
+}
+void MuCanvasContext2DScreen::finish()
+{
+
+}
+
 }
